@@ -75,6 +75,7 @@ Route::group(['middleware'=>['auth','authadmin'],'prefix'=>'admin'],function ()
         Route::get('gelir',[TarifController::class,'gelir'])->name('gelir');
         Route::get('senedlesme',[TarifController::class,'senedlesme'])->name('senedlesme');
         Route::get('texniki',[TarifController::class,'texniki'])->name('texniki');
+        Route::get('xidmet',[TarifController::class,'xidmet'])->name('xidmet');
 
 //        Route::post('select',[TarifController::class,'select'])->name('select');
 

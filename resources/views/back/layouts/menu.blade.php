@@ -118,6 +118,12 @@
                                 <p>Texniki verilənlər</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{route('xidmet')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Xidmet analizi</p>
+                            </a>
+                        </li>
 
                     </ul>
                 </li>

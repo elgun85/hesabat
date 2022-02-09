@@ -440,6 +440,17 @@ public function senedlesme(Request $request)
     }
 
     /****************         telyoxlaS          ***********************/
+    /****************         xidmet analizi basla          ***********************/
+    public function xidmet()
+    {
+        return view('back.yoxla.xidmet');
+
+    }
+    /****************         xidmet analizi son          ***********************/
+
+
+
+
 
     public function telyoxlaS(Request $request)
     {

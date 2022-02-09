@@ -1,5 +1,5 @@
 @extends('back.layouts.master')
-@section('title','Aylıq xidmətlər üzrə hesabat')
+@section('title','Xidmətlər üzrə hesabat')
 
 @section('content')
     <div class="content-wrapper">
@@ -9,9 +9,9 @@
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1>
-                            @if((request()->get('il')) and (request()->get('ay')) )
-                                {{request()->get('ay')}}-{{ request()->get('il')}} Aylıq xidmətlər üzrə hesabat
-                            @endif
+{{--                            @if((request()->get('il')) and (request()->get('ay')) )--}}
+{{--                                {{request()->get('ay')}}-{{ request()->get('il')}} Aylıq xidmətlər üzrə hesabat--}}
+{{--                            @endif--}}
                         </h1>
                     </div>
                     <div class="col-sm-6">
@@ -47,7 +47,7 @@
 
                     <div class="row">
                         <div class="col-md-8">
-                            <h4 class="card-title">Cemi -{{$say}}</h4>
+{{--                            <h4 class="card-title">Cemi -{{$say}}</h4>--}}
                         </div>
                         <div class="col-md-4 text-right"> <button id="exporttable" class="btn btn-primary">Excel</button> </div>
                     </div>
@@ -76,21 +76,21 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($data as $skaf)
+{{--                                @foreach($data as $skaf)--}}
 
-                                    <tr class="text-left">
-                                        <td>{{$skaf->telefon}}</td>
-                                        <td>{{$skaf->ats}}</td>
-                                        <td>{{$skaf->tarif}}</td>
-                                        <td>{{$skaf->adabune}}</td>
-                                        <td>{{$skaf->kodkuce}}</td>
-                                        <td>{{$skaf->ad}}</td>
-                                        <td>{{$skaf->adres}}</td>
+{{--                                    <tr class="text-left">--}}
+{{--                                        <td>{{$skaf->telefon}}</td>--}}
+{{--                                        <td>{{$skaf->ats}}</td>--}}
+{{--                                        <td>{{$skaf->tarif}}</td>--}}
+{{--                                        <td>{{$skaf->adabune}}</td>--}}
+{{--                                        <td>{{$skaf->kodkuce}}</td>--}}
+{{--                                        <td>{{$skaf->ad}}</td>--}}
+{{--                                        <td>{{$skaf->adres}}</td>--}}
 
 
 
-                                    </tr>
-                                @endforeach
+{{--                                    </tr>--}}
+{{--                                @endforeach--}}
                                 </tbody>
 
                             </table>
