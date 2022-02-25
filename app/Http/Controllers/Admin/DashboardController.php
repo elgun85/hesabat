@@ -13,7 +13,7 @@ class DashboardController extends Controller
 
 
 
-      return view('front.main');
+ //     return view('front.main');
     }
 
     public function profile()

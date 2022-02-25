@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\VezifeController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\TarifController;
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\NavbarController;
 
 
 /*
@@ -24,7 +26,7 @@ use App\Http\Controllers\Admin\TarifController;
 
 
 
-Route::get('/',[DashboardController::class,'index'])->name('front.dashboard');
+Route::get('/',[MainController::class,'index'])->name('front.dashboard');
 
 Route::group(['middleware'=>['auth','authadmin'],'prefix'=>'admin'],function ()
 {
