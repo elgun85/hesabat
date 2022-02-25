@@ -16,6 +16,7 @@ use App\Models\lstarif_2109;
 use App\Models\bank_2021;
 use App\Models\skaf;
 use App\Models\mhm_ad;
+use App\Models\flkart_x8;
 
 class TarifController extends Controller
 {
@@ -32,30 +33,7 @@ class TarifController extends Controller
 
 
 
-// *******************      texniki verilenler basla  *****************************************************
 
-public function texniki(Request $request){
-    $atsler=skaf::
-        select('ats', DB::raw('count(*) as total'))
-        ->groupBy('ats')
-        -> take(150)
-         ->get();
-   $data=DB::table('skafs as S')
-        ->join('mhm_ads as M', 'S.telefon', '=', 'M.telefon')
-       ->join('flkart8 as F', 'S.telefon', '=', 'F.notel')
-
-       ->select('S.telefon','S.ats','S.skaf','M.ad','M.unvan','F.kodtarif as tarif','F.abonent')
-        ->where('ats',$request->ats)
-    //   ->whereNotIn('kodtarif', [707,708,721,723])
-       ->orderBy('telefon','ASC')
-        ->get();
-     $say=$data->count();
-
-
-    return view('back.yoxla.texniki',compact('atsler','data','say'));
-}
-
-// *******************      texniki verilenler son *****************************************************
 
 
 // *******************      analiz  *****************************************************
@@ -111,6 +89,173 @@ public function texniki(Request $request){
 
         return view('back.yoxla.analiz2', compact('data', 'cemi'));
     }
+
+    // *******************      texniki verilenler basla  *****************************************************
+
+    public function texniki(Request $request){
+        $atsler=skaf::
+        select('ats', DB::raw('count(*) as total'))
+            ->groupBy('ats')
+            -> take(150)
+            ->get();
+        $data=DB::table('skafs as S')
+            ->join('mhm_ads as M', 'S.telefon', '=', 'M.telefon')
+            ->join('flkart8 as F', 'S.telefon', '=', 'F.notel')
+            ->select('S.telefon','S.ats','S.skaf','M.ad','M.unvan','F.kodtarif as tarif','F.abonent')
+            ->where('ats',$request->ats)
+            //   ->whereNotIn('kodtarif', [707,708,721,723])
+            ->orderBy('telefon','ASC')
+            ->get();
+        $say=$data->count();
+
+
+        return view('back.yoxla.texniki',compact('atsler','data','say'));
+    }
+
+// *******************      texniki verilenler son *****************************************************
+
+
+    /****************         xidmet analizi basla          ***********************/
+    public function xidmet()
+    {
+
+
+
+
+
+
+        $E=DB::table('flkart_x8 as F8')
+            ->join('flkart8 as F', 'F8.notel', '=', 'F.notel')
+           ->leftJoin('lstarif_2021 as L', 'F8.kodtarif', '=', 'L.kodtarif')
+            ->select(
+                'F8.kodtarif as tarif',
+                'L.adtarif',
+                'F8.notel',
+                'F8.summa',
+                'L.kodish',
+                'F.abonent',
+                'F.abonent2'
+            );
+        $E1=DB::table(DB::raw("({$E->toSql()}) as E1"));
+
+        $T=DB::table('flkart8 as F')
+            ->leftJoin('lstarif_2021 as L', 'F.kodtarif', '=', 'L.kodtarif')
+            ->select('F.kodtarif as tarif',
+                'adtarif',
+                'notel',
+                'summa',
+                'kodish',
+                'abonent',
+                'abonent2'
+            )->unionAll($E1);
+
+        $T1=DB::table(DB::raw("({$T->toSql()}) as T1"));
+
+
+
+//
+//        WHEN T1.kodtarif IN (701,707,708,721,723)                                         THEN "GPON"
+// 		    WHEN T1.kodtarif IN (1,2,7,21,111)                                                THEN "Mis"
+//    		WHEN T1.kodtarif IN (272,273,274,275,276,277,278,279,281,282,283,285,286,293,295) THEN "Servis"
+//    		WHEN T1.kodtarif IN (6,8,36,49,61,235,289,349,907,920,925,926,928)                THEN "sair"
+//
+//    		WHEN T1.kodtarif IN (410,924,927,930,411)                                         THEN "ATS-lərdə qur.avad."
+//    		WHEN T1.kodtarif IN (31,32,93,94,96,97)                                           THEN "BRX-dən ist.haqqı"
+//    		WHEN T1.kodtarif IN (324,325,326)                                                 THEN "Ethernet"
+//    		WHEN T1.kodtarif IN (543)                                                         THEN "Digər prov"
+//    		WHEN T1.kodtarif IN (929)                                                         THEN "KTX"
+//    		WHEN T1.kodtarif IN (39,46,48,51,53,54,58,59,60)                                  THEN "Rəqəmsal kanal"
+//    		WHEN T1.kodtarif IN (391,392,396,397,398,399)                                     THEN "Kabel kan.icare"
+//    		WHEN T1.kodtarif IN (368,369)                                                     THEN "FO lif"
+
+
+        $T1=$T1->select('T1.*',
+            $T1->raw('
+        CASE
+    		WHEN T1.abonent IN (1, 8) THEN "MENZIL"
+    		ELSE "IDERE"
+    		END AS "categoriya",
+
+    	CASE
+ 		   	WHEN T1.tarif IN (1,2,7,21,111)                        THEN "Mis kabel"
+ 		   	WHEN T1.tarif IN (701,707,708,721,723)                        THEN "Gpon telefon"
+ 		   	WHEN T1.tarif IN (272,273,274,275,276,277,278,279,281,282,283,285,286,293,295)                        THEN "Servis telefon"
+ 		   	WHEN T1.tarif IN (6,8,36,49,61,235,289,349,907,925,926,928)                                          THEN "Digər_say"
+
+ 		   	WHEN T1.tarif IN (410,924,927,930,411)                        THEN "ATS-lərdə qur.avad"
+ 		   	WHEN T1.tarif IN (31,32,93,94,96,97)                        THEN "BRX-dən ist.haqqı"
+ 		   	WHEN T1.tarif IN (324,325,326)                        THEN "Ethernet"
+ 		   	WHEN T1.tarif IN (543,920)                        THEN "Digər prov"
+ 		   	WHEN T1.tarif IN (929)                        THEN "KTX"
+ 		   	WHEN T1.tarif IN (39,46,48,51,53,54,58,59,60)                        THEN "Rəqəmsal kanal"
+ 		   	WHEN T1.tarif IN (391,392,396,397,398,399)                        THEN "Kabel kan.icare"
+ 		   	WHEN T1.tarif IN (368,369)                        THEN "FO lif"
+
+ 		   	WHEN T1.tarif IN (437,444,447,806,812,813,814,851,852,877)                        THEN "Adsl"
+ 		   	WHEN T1.tarif   BETWEEN 609 AND 628                                           THEN "Aik"
+ 		   	WHEN T1.tarif   BETWEEN 701 AND 727                                           THEN "Gpon"
+ 		   	WHEN T1.tarif IN (815,827,305)                                                   THEN "Ip Tv"
+ 		   	WHEN T1.tarif IN (858,859,881,680,818,821,822,823,841)                                                   THEN "elave"
+
+    	ELSE "Diger"
+
+   		END AS "xidmetin_novu"
+
+
+
+'));
+        $T2=DB::table(DB::raw("({$T1->toSql()}) as T2"));
+
+
+        $data=$T2
+            ->select('T2.tarif','T2.adtarif','T2.categoriya','T2.xidmetin_novu',
+                DB::raw('COALESCE( T2.tarif," ") as tarif'),
+                $T2->raw('
+
+   		CASE
+   		WHEN T2.xidmetin_novu = "Mis kabel"
+   		  or T2.xidmetin_novu = "Gpon telefon"
+   		  or T2.xidmetin_novu = "Servis telefon"
+   		  or T2.xidmetin_novu = "Digər_say"
+   		    THEN    "Telefon"
+
+   		WHEN T2.xidmetin_novu = "Adsl"
+   		  or T2.xidmetin_novu = "Aik"
+   		  or T2.xidmetin_novu = "Gpon"
+   		  or T2.xidmetin_novu = "Ip Tv"
+   		  or T2.xidmetin_novu = "elave"
+   		    THEN    "Internet"
+   		ELSE "Sair"
+   		END AS "Qrup",
+
+    SUM( CASE WHEN T2.categoriya = "MENZIL" THEN 1 ELSE 0 END ) as menzil_say,
+    SUM( CASE WHEN T2.categoriya = "MENZIL" THEN T2.summa ELSE 0 END) as menzil_summa,
+
+    SUM( CASE WHEN T2.categoriya = "IDERE" THEN 1 ELSE 0 END ) as idere_say,
+    SUM( CASE WHEN T2.categoriya = "IDERE" THEN T2.summa ELSE 0 END) as idere_summa,
+
+    COUNT(*) as cemi_say,
+    SUM(T2.summa) as cemi_hesab
+
+     '));
+
+        $data= $data
+         //          ->orderBy('Qrup','DESC')
+
+            ->groupBy('Qrup')
+            ->groupBy('T2.xidmetin_novu')
+            ->groupBy(DB::raw('T2.tarif WITH ROLLUP'))
+            //->orderBy('Qrup','DESC')
+            ->take(150)
+            ->get();
+
+
+
+
+        return view('back.yoxla.xidmet',compact('data'));
+
+    }
+    /****************         xidmet analizi son          ***********************/
 
 // *******************      senedlesme start  *****************************************************
 
@@ -440,15 +585,6 @@ public function senedlesme(Request $request)
     }
 
     /****************         telyoxlaS          ***********************/
-    /****************         xidmet analizi basla          ***********************/
-    public function xidmet()
-    {
-        return view('back.yoxla.xidmet');
-
-    }
-    /****************         xidmet analizi son          ***********************/
-
-
 
 
 

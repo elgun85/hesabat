@@ -64,33 +64,69 @@
 
 {{--                                </tr>--}}
                                 <tr>
-                                    <th>Telefon</th>
-                                    <th>Ats</th>
+                                    <th>kod</th>
                                     <th>tarif</th>
-                                    <th>Ad</th>
-                                    <th>Kod</th>
-                                    <th>kuce</th>
-                                    <th>Adres</th>
+                                    <th>men_say</th>
+                                    <th>men_hes</th>
+                                    <th>qur_say</th>
+                                    <th>qur_hes</th>
+                                    <th>cem_say</th>
+                                    <th>cem_hes</th>
+{{--                                    <th>diger</th>--}}
 
 
                                 </tr>
                                 </thead>
                                 <tbody>
-{{--                                @foreach($data as $skaf)--}}
+                                @foreach($data as $tar)
 
-{{--                                    <tr class="text-left">--}}
-{{--                                        <td>{{$skaf->telefon}}</td>--}}
-{{--                                        <td>{{$skaf->ats}}</td>--}}
-{{--                                        <td>{{$skaf->tarif}}</td>--}}
-{{--                                        <td>{{$skaf->adabune}}</td>--}}
-{{--                                        <td>{{$skaf->kodkuce}}</td>--}}
-{{--                                        <td>{{$skaf->ad}}</td>--}}
-{{--                                        <td>{{$skaf->adres}}</td>--}}
-
+                                    <tr class="text-left
+                                    @if($tar->tarif===' ')
+                                         text-danger text-bold
+                                    @endif
+                                    "
+                                    >
+                                        <td>{{$tar->tarif}}
 
 
-{{--                                    </tr>--}}
-{{--                                @endforeach--}}
+                                            @if($tar->tarif===' ' and  $tar->Qrup === 'Telefon' and !$tar->xidmetin_novu)
+                                                <b>  {{$tar->Qrup}} xidmətləri üzrə  </b>
+                                            @endif
+                                            @if($tar->tarif===' ' and  $tar->Qrup === 'Internet' and !$tar->xidmetin_novu)
+                                                <b>  {{$tar->Qrup}} xidmətləri üzrə </b>
+                                            @endif
+                                            @if($tar->tarif===' ' and  $tar->Qrup === 'Sair' and !$tar->xidmetin_novu)
+                                                <b>  {{$tar->Qrup}} xidmətləri üzrə </b>
+                                            @endif
+
+
+                                            @if($tar->tarif===' ')
+                                                <b>  {{$tar->xidmetin_novu}} cəmi  </b>
+                                            @endif
+
+                                        </td>
+
+
+
+                                        @if($tar->tarif===' ')
+                                        <td>&nbsp;</td>
+
+                                        @else
+                                            <td>{{$tar->adtarif}}</td>
+                                        @endif
+
+                                        <td>{{$tar->menzil_say}}</td>
+                                        <td>{{$tar->menzil_summa}}</td>
+                                        <td>{{$tar->idere_say}}</td>
+                                        <td>{{$tar->idere_summa}}</td>
+                                        <td>{{$tar->cemi_say}}</td>
+                                        <td>{{$tar->cemi_hesab}}</td>
+{{--                                        <td>{{$tar->Diger_say}}</td>--}}
+
+
+
+                                    </tr>
+                                @endforeach
                                 </tbody>
 
                             </table>
@@ -99,10 +135,6 @@
                         {{--                cedvel son--}}
 
                         {{--        {{ $cemi_hesab_sum }}--}}
-
-
-
-
 
                 </div>
                 <!-- /.card-body -->

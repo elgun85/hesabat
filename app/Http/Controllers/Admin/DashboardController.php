@@ -10,7 +10,10 @@ class DashboardController extends Controller
 {
     public function index()
     {
-       return view('back.dashboard');
+
+
+
+      return view('front.main');
     }
 
     public function profile()

@@ -21,23 +21,10 @@ use App\Http\Controllers\Admin\TarifController;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
-
-//Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-//    return view('dashboard');
-//})->name('dashboard');
-
-//
-//Route::middleware(['auth:sanctum', 'verified','authadmin'])->group(function ()
-//{
-//    Route::get('/dashboard',DashboardController::class,'index')->name('admin.dashboard');
-//
-//});
 
 
 
+Route::get('/',[DashboardController::class,'index'])->name('front.dashboard');
 
 Route::group(['middleware'=>['auth','authadmin'],'prefix'=>'admin'],function ()
 {
