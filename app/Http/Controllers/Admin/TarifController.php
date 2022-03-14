@@ -405,7 +405,7 @@ public function senedlesme(Request $request)
  		   	WHEN T1.kodtarif IN (701,707,708,721,723)                                         THEN "GPON"
  		    WHEN T1.kodtarif IN (1,2,7,21,111)                                                THEN "Mis"
     		WHEN T1.kodtarif IN (272,273,274,275,276,277,278,279,281,282,283,285,286,293,295) THEN "Servis"
-    		WHEN T1.kodtarif IN (6,8,36,49,61,235,289,349,907,920,925,926,928)                THEN "sair"
+    		WHEN T1.kodtarif IN (4,6,8,36,49,61,235,289,349,907,920,925,926,928)                THEN "Sair xidmət"
 
     		WHEN T1.kodtarif IN (410,924,927,930,411)                                         THEN "ATS-lərdə qur.avad."
     		WHEN T1.kodtarif IN (31,32,93,94,96,97)                                           THEN "BRX-dən ist.haqqı"
@@ -467,7 +467,7 @@ public function senedlesme(Request $request)
 
 	    CASE
  		   	WHEN Ts1.kodxidmet IN (101,103,104,107,109)                                         THEN "1. Yeni cekilis"
-/* 		   	WHEN Ts1.kodxidmet IN (121,151,171,299,378)                                         THEN "2. Bərpa,A-Ada,Sair"*/
+/* 		   	WHEN Ts1.kodxidmet IN (121,151,171,299,378)                                         THEN "2. Bərpa,A-Ada,Sair ödəniş"*/
 
 
     		ELSE "2. Bərpa,A-Ada,Sair"

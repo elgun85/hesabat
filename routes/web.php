@@ -9,8 +9,8 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\TarifController;
 use App\Http\Controllers\MainController;
-use App\Http\Controllers\NavbarController;
-
+use App\Http\Controllers\Admin\NavbarController;
+use App\Http\Controllers\Admin\AboutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +27,8 @@ use App\Http\Controllers\NavbarController;
 
 
 Route::get('/',[MainController::class,'index'])->name('front.dashboard');
+Route::get('/about',[MainController::class,'about'])->name('front.about');
+
 
 Route::group(['middleware'=>['auth','authadmin'],'prefix'=>'admin'],function ()
 {
@@ -69,6 +71,16 @@ Route::group(['middleware'=>['auth','authadmin'],'prefix'=>'admin'],function ()
 //        Route::post('select',[TarifController::class,'select'])->name('select');
 
         Route::post('testdelete',[ProductController::class,'multipleusersdelete'])->name('testdelete');
+
+        //front
+    Route::resource('navbar',NavbarController::class);
+    Route::resource('about',AboutController::class);
+
+
+
+    Route::get('navbarDel/{id}',[NavbarController::class,'destroy'])->name('navbar.delete');
+    Route::get('aboutDel/{id}',[AboutController::class,'delete'])->name('about.delete');
+
 
 
 

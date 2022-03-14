@@ -47,12 +47,11 @@
 
         <nav id="navbar" class="navbar order-last order-lg-0">
             <ul>
-                <li><a class="active" href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="resume.html">Resume</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="portfolio.html">Portfolio</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                @foreach($navbars as $navbar)
+
+                <li><a class="@if(Request::segment(1)==$navbar->name) active @endif" href="{{$navbar->url}}">{{$navbar->name}}</a></li>
+                @endforeach
+
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->

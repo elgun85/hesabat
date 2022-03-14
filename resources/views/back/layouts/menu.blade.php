@@ -77,6 +77,31 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
+                            Site
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('navbar.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Navbar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('about.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>About</p>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
                             Hesabat
                             <i class="right fas fa-angle-left"></i>
                         </p>

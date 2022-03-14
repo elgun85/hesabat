@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>@yield('title','Admin paneli')</title>
   @yield('scc_data')
   <!-- Google Font: Source Sans Pro -->
@@ -16,6 +17,7 @@
     @yield('data_table_ccs')
     @yield('table_css')
     @yield('gel_sen_css')
+    @yield('summernote_css')
 
 
 
@@ -37,8 +39,12 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{{route('admin.dashboard')}}" class="nav-link">Ana səhifə</a>
       </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="{{route('front.dashboard')}}" class="nav-link float-right">Front</a>
+      </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">@yield('title')</a>
+
       </li>
     </ul>
 
