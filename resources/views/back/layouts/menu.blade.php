@@ -98,6 +98,34 @@
 
                     </ul>
                 </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-newspaper"></i>
+                        <p>
+                            News
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('navbar.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Article</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('about.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>About</p>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+
+
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -135,6 +163,18 @@
                             <a href="{{route('senedlesme')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Sənədləşmə</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('texXid')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Tex ver(289)</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('siyahi')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Siyahı</p>
                             </a>
                         </li>
                         <li class="nav-item">

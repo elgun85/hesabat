@@ -18,6 +18,7 @@ class CreateMhmLoginsTable extends Migration
             $table->unsignedBigInteger('cat_id');
             $table->unsignedBigInteger('vez_id')->index();
             $table->string('login')->unique();
+            $table->string('password')->nullable();
             $table->string('name');
             $table->string('qeyd')->nullable();
 //            $table->foreign('vez_id')->references('id')->on('vezives')->onDelete('cascade');

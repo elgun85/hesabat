@@ -118,12 +118,6 @@ class TarifController extends Controller
     /****************         xidmet analizi basla          ***********************/
     public function xidmet()
     {
-
-
-
-
-
-
         $E=DB::table('flkart_x8 as F8')
             ->join('flkart8 as F', 'F8.notel', '=', 'F.notel')
            ->leftJoin('lstarif_2021 as L', 'F8.kodtarif', '=', 'L.kodtarif')
@@ -150,23 +144,6 @@ class TarifController extends Controller
             )->unionAll($E1);
 
         $T1=DB::table(DB::raw("({$T->toSql()}) as T1"));
-
-
-
-//
-//        WHEN T1.kodtarif IN (701,707,708,721,723)                                         THEN "GPON"
-// 		    WHEN T1.kodtarif IN (1,2,7,21,111)                                                THEN "Mis"
-//    		WHEN T1.kodtarif IN (272,273,274,275,276,277,278,279,281,282,283,285,286,293,295) THEN "Servis"
-//    		WHEN T1.kodtarif IN (6,8,36,49,61,235,289,349,907,920,925,926,928)                THEN "sair"
-//
-//    		WHEN T1.kodtarif IN (410,924,927,930,411)                                         THEN "ATS-lərdə qur.avad."
-//    		WHEN T1.kodtarif IN (31,32,93,94,96,97)                                           THEN "BRX-dən ist.haqqı"
-//    		WHEN T1.kodtarif IN (324,325,326)                                                 THEN "Ethernet"
-//    		WHEN T1.kodtarif IN (543)                                                         THEN "Digər prov"
-//    		WHEN T1.kodtarif IN (929)                                                         THEN "KTX"
-//    		WHEN T1.kodtarif IN (39,46,48,51,53,54,58,59,60)                                  THEN "Rəqəmsal kanal"
-//    		WHEN T1.kodtarif IN (391,392,396,397,398,399)                                     THEN "Kabel kan.icare"
-//    		WHEN T1.kodtarif IN (368,369)                                                     THEN "FO lif"
 
 
         $T1=$T1->select('T1.*',
@@ -283,16 +260,6 @@ public function senedlesme(Request $request)
     ->select('E.notel','E.kodqurum','E.kodxidmet','E.summa','L.kateqor','L.kodmhm','E.ay','E.il');
     $T1=DB::table(DB::raw("({$T->toSql()}) as T1"));
 
-
-
-//        $edv=$T1
-//       ->select('T1.kodxidmet','T1.summa','T1.kodmhm')
-//       ->whereNotIn('T1.kateqor', array(23,33))
-////        ->whereIn('T1.kateqor', array(23,33))
-//       ->groupBy('T1.kodxidmet','T1.kodmhm')
-//        ->get();
-
-
     $T1=$T1->select('T1.*',
         $T1->raw('
         CASE
@@ -319,12 +286,12 @@ public function senedlesme(Request $request)
     SUM( CASE WHEN T2.categoriya = "MENZIL" THEN T2.summa ELSE 0 END) as menzil_summa,
 
     SUM( CASE WHEN T2.categoriya = "IDERE" THEN 1 ELSE 0 END ) as idere_say,
-    SUM( CASE WHEN T2.categoriya = "IDERE" AND T2.kateqor IN (23,33) THEN T2.summa ELSE 0 END) as idere_edv,
+    SUM( CASE WHEN T2.categoriya = "IDERE" AND T2.kateqor IN (21,31,71,23,33,73) THEN T2.summa ELSE 0 END) as idere_edv,
 
-    SUM( CASE WHEN T2.categoriya = "IDERE" AND T2.kateqor NOT IN (23,33) THEN T2.summa ELSE 0 END) as idere_edv_li,
+    SUM( CASE WHEN T2.categoriya = "IDERE" AND T2.kateqor NOT IN (21,31,71,23,33,73) THEN T2.summa ELSE 0 END) as idere_edv_li,
 
 
-    SUM( CASE WHEN T2.kateqor IN (23,33) THEN T2.summa ELSE 0 END) as idere_edv_siz,
+    SUM( CASE WHEN T2.kateqor IN (21,31,71,23,33,73) THEN T2.summa ELSE 0 END) as idere_edv_siz,
     SUM( CASE WHEN T2.categoriya = "IDERE" THEN T2.summa ELSE 0 END) as idere_summa,
 
     COUNT(*) as cemi_say,
@@ -355,6 +322,8 @@ public function senedlesme(Request $request)
     public function gelir(Request $request)
     {
 
+        ini_set('max_execution_time', 180);
+
 
         $il = $request->il;
         $ay = $request->ay;
@@ -369,7 +338,7 @@ public function senedlesme(Request $request)
             ->get();
 
  $E=DB::table('gelave_2021 as E')
-     ->join('gesas_2021 as A',
+         ->join('gesas_2021 as A',
      function ($join) {
          $join->on('E.notel', '=', 'A.notel')->on('E.ay', '=', 'A.ay')->on('E.il', '=', 'A.il');
      })
@@ -405,7 +374,8 @@ public function senedlesme(Request $request)
  		   	WHEN T1.kodtarif IN (701,707,708,721,723)                                         THEN "GPON"
  		    WHEN T1.kodtarif IN (1,2,7,21,111)                                                THEN "Mis"
     		WHEN T1.kodtarif IN (272,273,274,275,276,277,278,279,281,282,283,285,286,293,295) THEN "Servis"
-    		WHEN T1.kodtarif IN (4,6,8,36,49,61,235,289,349,907,920,925,926,928)                THEN "Sair xidmət"
+    		WHEN T1.kodtarif IN (4,6,8,36,49,61,235,349,907,920,925,926,928)                THEN "Sair xidmət "
+    		WHEN T1.kodtarif IN (289)                                                       THEN "Sair tex xid"
 
     		WHEN T1.kodtarif IN (410,924,927,930,411)                                         THEN "ATS-lərdə qur.avad."
     		WHEN T1.kodtarif IN (31,32,93,94,96,97)                                           THEN "BRX-dən ist.haqqı"
@@ -432,7 +402,7 @@ public function senedlesme(Request $request)
     SUM( CASE WHEN T2.categoriya = "MENZIL" THEN T2.summa ELSE 0 END) as menzil_summa,
 
     SUM( CASE WHEN T2.categoriya = "IDERE" THEN 1 ELSE 0 END ) as idere_say,
-    SUM( CASE WHEN T2.categoriya = "IDERE" AND T2.kateqor IN (23,33) THEN T2.summa ELSE 0 END) as idere_edv,
+    SUM( CASE WHEN T2.categoriya = "IDERE" AND T2.kateqor IN (21,31,71,23,33,73) THEN T2.summa ELSE 0 END) as idere_edv,
     SUM( CASE WHEN T2.categoriya = "IDERE" THEN T2.summa ELSE 0 END) as idere_summa,
 
     COUNT(*) as cemi_say,
@@ -484,7 +454,7 @@ public function senedlesme(Request $request)
     SUM( CASE WHEN Ts2.categoriya = "MENZIL" THEN Ts2.summa ELSE 0 END) as menzil_summa,
 
     SUM( CASE WHEN Ts2.categoriya = "IDERE" THEN 1 ELSE 0 END ) as idere_say,
-    SUM( CASE WHEN Ts2.categoriya = "IDERE" AND Ts2.kateqor IN (23,33) THEN Ts2.summa ELSE 0 END) as idere_edv,
+    SUM( CASE WHEN Ts2.categoriya = "IDERE" AND Ts2.kateqor IN (21,31,71,23,33,73) THEN Ts2.summa ELSE 0 END) as idere_edv,
     SUM( CASE WHEN Ts2.categoriya = "IDERE" THEN Ts2.summa ELSE 0 END) as idere_summa,
 
     COUNT(*) as cemi_say,
@@ -505,12 +475,191 @@ public function senedlesme(Request $request)
 
         return view('back.yoxla.gelir_sened', compact('gelirler','senedlesme','aylar','iller'));
     }
-
-
 // *******************      Gelir son  *****************************************************
 
 
+// *******************      texXid basla  *****************************************************
 
+
+public function texXid(Request $request)
+{
+    ini_set('max_execution_time', 300);
+
+    $il = $request->il;
+    $ay = $request->ay;
+    $aylar=DB::table('gelave_2021 as B')
+        -> select('ay', DB::raw('count(*) as total'))
+        ->groupBy('ay')
+        ->get();
+
+    $iller=DB::table('gelave_2021 as B')
+        -> select('il', DB::raw('count(*) as total'))
+        ->groupBy('il')
+        ->get();
+
+     $E=DB::table('gelave_2021 as E')
+          ->join('gesas_2021  as A',
+            function ($join) {
+                $join->on('E.notel', '=', 'A.notel')->on('E.ay', '=', 'A.ay')->on('E.il', '=', 'A.il');
+            })
+        ->leftJoin('edvyox_2021 as L',
+            function ($join){
+                $join->on('A.kodqurum', '=', 'L.kodqurum')->on('A.ay', '=', 'L.ay')->on('A.il', '=', 'L.il');
+            }
+        )
+
+        ->select('A.kodqurum','A.abonent','A.abonent2','E.kodtarif','E.summa','L.kateqor','A.ay','A.il');
+
+
+
+    $E1=DB::table(DB::raw("({$E->toSql()}) as E"));
+
+    $T=  DB::table('gesas_2021 as A')
+           ->leftJoin('edvyox_2021 as L',
+            function ($join){
+                $join->on('A.kodqurum', '=', 'L.kodqurum')->on('A.ay', '=', 'L.ay')->on('A.il', '=', 'L.il');
+            }
+        )
+        ->select('A.kodqurum','abonent','abonent2','kodtarif','summa','L.kateqor','A.ay','A.il')->
+        unionAll($E1);
+
+    $T1=DB::table(DB::raw("({$T->toSql()}) as T1"));
+
+    $T1=$T1->select('T1.*',
+        $T1->raw('
+        CASE
+    		WHEN T1.abonent IN (1, 8) THEN "MENZIL"
+    		ELSE "IDERE"
+    		END AS "categoriya",
+	    CASE
+    		WHEN T1.kodtarif IN (289)                                                       THEN "Sair tex xid"
+    		/*ELSE "basqa"*/
+   		END AS "xidmetin_novu"
+'));
+    $T2=DB::table(DB::raw("({$T1->toSql()}) as T2"));
+
+
+
+    $data=$T2
+        ->select('T2.xidmetin_novu',
+            DB::raw('COALESCE( T2.xidmetin_novu,"Cəmi") as xidmetin_novu'),
+            $T2->raw('
+
+/*    SUM( CASE WHEN T2.categoriya = "MENZIL" THEN 1 ELSE 0 END ) as menzil_say,
+    SUM( CASE WHEN T2.categoriya = "MENZIL" THEN T2.summa ELSE 0 END) as menzil_summa,*/
+
+/*    SUM( CASE WHEN T2.categoriya = "IDERE" THEN 1 ELSE 0 END ) as idere_say,*/
+    SUM( CASE WHEN T2.categoriya = "IDERE" AND T2.kateqor IN (21,31,71,23,33,73) THEN T2.summa ELSE 0 END) as idere_edv,
+/*    SUM( CASE WHEN T2.categoriya = "IDERE" THEN T2.summa ELSE 0 END) as idere_summa,*/
+
+    COUNT(*) as cemi_say,
+    SUM(T2.summa) as cemi_hesab
+     '));
+
+    $data=$data
+        ->where('ay',$ay)
+        ->where('il',$il)
+        ->where('xidmetin_novu', '!=', 'basqa')
+        ->groupBy(DB::raw('T2.xidmetin_novu WITH ROLLUP'))
+        ->take(150)
+        ->get();
+
+
+    return view('back.yoxla.texXid', compact('data','aylar','iller'));
+}
+
+// *******************      texXid son  *****************************************************
+// *******************      siyahi start  *****************************************************
+public function siyahi(Request $request)
+{
+    ini_set('max_execution_time', 180);
+
+
+    $il = $request->il;
+    $ay = $request->ay;
+    $aylar=DB::table('gesas_2021 as B')
+        -> select('ay', DB::raw('count(*) as total'))
+        ->groupBy('ay')
+        ->get();
+
+    $iller=DB::table('gesas_2021 as B')
+        -> select('il', DB::raw('count(*) as total'))
+        ->groupBy('il')
+        ->get();
+
+
+
+
+
+    $E=DB::table('gelave_2021 as E')
+        ->join('gesas_2021  as A',
+            function ($join) {
+                $join->on('E.notel', '=', 'A.notel')->on('E.ay', '=', 'A.ay')->on('E.il', '=', 'A.il');
+            })
+        ->leftJoin('edvyox_2021 as L',
+            function ($join){
+                $join->on('A.kodqurum', '=', 'L.kodqurum')->on('A.ay', '=', 'L.ay')->on('A.il', '=', 'L.il');
+            }
+        )
+        ->select('A.kodqurum','A.abonent','A.abonent2','E.kodtarif','E.summa','L.kateqor','L.kodmhm','A.ay','A.il');
+
+        $E1=DB::table(DB::raw("({$E->toSql()}) as E"));
+
+
+
+    $T=  DB::table('gesas_2021 as A')
+        ->leftJoin('edvyox_2021 as L',
+            function ($join){
+                $join->on('A.kodqurum', '=', 'L.kodqurum')->on('A.ay', '=', 'L.ay')->on('A.il', '=', 'L.il');
+            }
+        )
+        ->select('A.kodqurum','abonent','abonent2','kodtarif','summa','L.kateqor','L.kodmhm','A.ay','A.il')->
+        unionAll($E1);
+
+    $T1=DB::table(DB::raw("({$T->toSql()}) as T1"));
+
+    $T1=$T1->select('T1.kodqurum',
+        $T1->raw('
+
+    COUNT(*) as cemi_say,
+    SUM(T1.summa) as cemi_hesablama
+
+'));
+
+//    $T2=DB::table(DB::raw("({$T1->toSql()}) as T2"));
+//
+//    $data=$T2
+//        ->select('T2.xidmetin_novu',
+//            $T2->raw('
+//
+//    COUNT(*) as cemi_say,
+//    SUM(T2.summa) as cemi_hesablama
+//     '));
+
+ $data=$T1
+    ->where('ay',$ay)
+    ->where('il',$il)
+//    ->where('ay',4)
+//    ->where('il',2022)
+    ->whereIn('T1.kateqor',array(21,31,71,23,33,73))
+    ->whereIn('T1.kodtarif',array(
+        1,2,7,21,111,701,707,708,721,723,272,273,274,275,276,277,278,279,281,282,283,285,286,293,295,4,6,8,36,49,61,235,349,907,920,925,926,928,
+        289,410,924,927,930,411,31,32,93,94,96,97,324,325,326,543,929,39,46,48,51,53,54,58,59,60,391,392,396,397,398,399,368,369
+
+    ))
+   // ->groupBy('T1.kodqurum','T1.kodmhm')
+    ->groupBy(DB::raw('T1.kodqurum WITH ROLLUP'))
+    ->take(150)
+    ->get();
+
+
+
+
+
+
+    return view('back.yoxla.siyahi', compact('data','aylar','iller'));
+}
+// *******************      siyahi son  *****************************************************
 
 // *******************      tarifSelect  *****************************************************
 

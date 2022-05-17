@@ -38,8 +38,8 @@
           </div>
         </div>
 <div class="card-body">
-         <div class="row">
-                          <div class="col-md-3">
+         <div class="row ">
+                          <div class="col-md-6">
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
@@ -60,6 +60,12 @@
                     <label for="exampleInputEmail1">Ad,soyad </label>
                     <input type="text" class="form-control" name="name" id="exampleInputEmail1" value="{{$data->name}}"  required>
                       @error('name') <p class="text-danger">{{$message}}</p> @enderror
+                  </div>
+
+                    <div class="form-group">
+                    <label for="exampleInputEmail1">Şifrə </label>
+                    <input type="text" class="form-control" name="password" id="exampleInputEmail1" value="{{$data->password}}"  >
+                      @error('password') <p class="text-danger">{{$message}}</p> @enderror
                   </div>
 
                 <div class="form-group">
@@ -103,7 +109,7 @@
 {{--    Sag            teref        --}}
 
 
-                          <div class="col-md-9">
+                          <div class="col-md-12">
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
@@ -126,6 +132,7 @@
                   <tr>
                     <th ><input type="checkbox" id="checkAll">  </th>
                     <th>Login</th>
+                    <th>Şifrə</th>
                     <th>Ad,soyad</th>
                     <th>Şöbə</th>
                     <th>Vəzifə</th>
@@ -139,6 +146,7 @@
 
                     <td ><input name='id[]' type="checkbox" id="checkItem"  value="{{$login->id}}">
                     <td>{{$login->login}}</td>
+                    <td>{{$login->password}}</td>
                     <td>{{ucwords($login->name)}} </td>
                     <td>{{mb_convert_case ($login->category[0]->sobe,MB_CASE_TITLE,'UTF-8')}}</td>
                     <td> {{$login->vezife[0]->name}}</td>
@@ -158,6 +166,7 @@
                     <th ><input type="checkbox" id="checkAll">  </th>
 
                     <th>Login</th>
+                    <th>Şifrə</th>
                     <th>Ad,soyad</th>
                     <th>Şöbə</th>
                     <th>Vəzifəsi</th>

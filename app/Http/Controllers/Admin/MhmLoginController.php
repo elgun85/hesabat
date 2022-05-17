@@ -105,7 +105,7 @@ class MhmLoginController extends Controller
 //]);
         $data=MhmLogin::findOrFail($id);
                 $data->update($request->except(['_method','_token']));
-        return redirect()->back()->with('message',' Uğurla Deyisdirildi!');
+        return redirect()->route('muser.index')->with('message',' Uğurla Deyisdirildi!');
     }
 
     /**

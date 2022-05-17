@@ -82,17 +82,49 @@
                                             <input type="text" class="form-control" value="{{old('phone')}} "  name="phone" id="exampleInputEmail1">
                                             @error('phone') <p class="text-danger">{{$message}}</p> @enderror
                                         </div>
+{{--                                        <div class="input-group mb-3">--}}
+{{--                                            <div class="input-group-prepend">--}}
+{{--                                                <span class="input-group-text"><i class="fas fa-phone"></i></span>--}}
+{{--                                            </div>--}}
+{{--                                            <input type="text" class="form-control" value="{{old('derece')}} "  name="derece[]" id="exampleInputEmail1">--}}
+{{--                                            @error('derece') <p class="text-danger">{{$message}}</p> @enderror--}}
+{{--                                        </div>--}}
 
-@foreach($skills as $pese)
-                                        <div class="form-check ">
-                                            <input class="form-check-input" name="skills[]" type="checkbox" value="{{$pese->name}}" id="defaultCheck1">
-                                            <label class="form-check-label" for="defaultCheck1">
-                                                {{$pese->name}}
-                                            </label>
-                                            @error('skills') <p class="text-danger">{{$message}}</p> @enderror
-                                        </div>
 
-                                        @endforeach
+{{--                                        @foreach($skills as $pese)--}}
+{{--    <div class="input-group mb-3 ">--}}
+
+{{--        <div class="form-check col-md-3">--}}
+
+{{--            <input class="form-check-input" name="skills[]" type="checkbox" value="{{$pese->name}}" id="defaultCheck1">--}}
+
+{{--            <label class="form-check-label" for="defaultCheck1">--}}
+{{--                {{$pese->name}}--}}
+{{--            </label>--}}
+{{--            @error('skills') <p class="text-danger">{{$message}}</p> @enderror--}}
+
+{{--        </div>--}}
+
+{{--        <div class="form-check col-md-3">--}}
+
+{{--            <input class="form-control form-control-sm " name="derece[]" type="text"  id="defaultCheck1" style="width: 50px">--}}
+
+{{--            @error('skills') <p class="text-danger">{{$message}}</p> @enderror--}}
+
+{{--        </div>--}}
+
+
+
+{{--        <div class="form-check col-xs-2 mb-3">--}}
+{{--            <input class="form-control form-control-sm " name="skills[]" type="text"  id="defaultCheck1" style="width: 50px">--}}
+{{--            @error('derece') <p class="text-danger">{{$message}}</p> @enderror--}}
+{{--        </div>--}}
+
+{{--    </div>--}}
+
+{{--                                        @endforeach--}}
+
+
 
 
 
@@ -132,7 +164,8 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Image</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Skills</th>
+{{--                                    <th scope="col">Skills</th>--}}
+{{--                                    <th scope="col">der</th>--}}
                                     <th scope="col">Phone</th>
                                     <th scope="col">Mail</th>
                                     <th scope="col">About</th>
@@ -145,7 +178,8 @@
                                         <th scope="row">{{$loop->iteration}}</th>
                                         <td><img src="{{asset($about->image)}}" alt="" width="40" height="40"></td>
                                         <td>{{Str::limit($about->name,8)}}</td>
-                                        <td>{{Str::limit($about->skills,8)}}</td>
+{{--                                        <td>{{Str::limit($about->skills,8)}}</td>--}}
+{{--                                        <td>{{Str::limit($about->derece,8)}}</td>--}}
                                         <td>{{Str::limit($about->phone,8)}}</td>
                                         <td>{{Str::limit($about->mail,8)}}</td>
                                         <td>{{Str::limit($about->about,8)}}</td>

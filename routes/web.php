@@ -65,6 +65,8 @@ Route::group(['middleware'=>['auth','authadmin'],'prefix'=>'admin'],function ()
         Route::get('telyoxlaS',[TarifController::class,'telyoxlaS'])->name('telyoxlaS');
         Route::get('gelir',[TarifController::class,'gelir'])->name('gelir');
         Route::get('senedlesme',[TarifController::class,'senedlesme'])->name('senedlesme');
+        Route::get('texXid',[TarifController::class,'texXid'])->name('texXid');
+        Route::get('siyahi',[TarifController::class,'siyahi'])->name('siyahi');
         Route::get('texniki',[TarifController::class,'texniki'])->name('texniki');
         Route::get('xidmet',[TarifController::class,'xidmet'])->name('xidmet');
 

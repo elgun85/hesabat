@@ -9,7 +9,7 @@ use App\Models\vezife;
 class MhmLogin extends Model
 {
     use HasFactory;
-                protected $fillable=['cat_id','vez_id','login','name','qeyd'];
+                protected $fillable=['cat_id','vez_id','login','password','name','qeyd'];
 
 
 
