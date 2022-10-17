@@ -41,7 +41,7 @@ class TestController extends Controller
 
 
 
-        return view('back.yoxla.test',compact('data'));
+        return view('back.test.test',compact('data'));
     }
 
 
@@ -50,32 +50,14 @@ class TestController extends Controller
     public function saxeli()
     {
 
-   //     return
-
-        $data=MhmLogin::
-          with('cat')
-          ->with('vez')
-                    ->    selectRaw(
-                        '
-SUM( CASE WHEN cat_id = "MENZIL" THEN 1 ELSE 0 END ) as menzil_say,
-
-                        cat_id,
-                        vez_id,
-                        login,
-                        name,
-                        qeyd'
-
-                    )
-            ->  groupBy('cat_id','vez_id','name')
-            ->where('qeyd',1)
-            ->orderBy('cat_id','ASC')
+        $data=MhmLoginCategory::
+        with('ata')
+            ->withCount('ata')
             ->get()
         ;
 
-      //  return$count = $data->count();
 
-
-        return view('back.yoxla.istifadeci',compact('data'));
+        return view('back.test.istifadeci',compact('data'));
     }
 
     public function skaf()

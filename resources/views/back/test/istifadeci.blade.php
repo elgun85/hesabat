@@ -46,14 +46,19 @@
 
                     <div class="m-4">
                         <ul >
-                           @foreach($data as $sobe)
+                            @foreach($data as $sobe)
                                 <li style="color: red">
-                                    {{$sobe->cat->sobe}}
-                               @foreach($sobe->vez as $vez)
-                                   <ul><li style="color: green">{{$vez->name}} {{$sobe->vez_say}}
-                                       <ul><li><b>{{$sobe->name}}</b></li></ul></li></ul>
+                                    {{$sobe->sobe}} {{$sobe->ata_count}}
+
+                                    {{--                                    @foreach($sobe->ata as $log)
+                                                                            <ul>   <li style="color: darkblue" >{{$loop->iteration}} {{$log->vez_id}}</li> </ul>
+                                                                        @endforeach--}}
+
+                                    @foreach($sobe->ata as $log)
+                                        <ul>   <li style="color: darkblue" >{{$loop->iteration}} {{$log->name}}</li> </ul>
+                                    @endforeach
                                 </li>
-                            @endforeach
+
 
                             @endforeach
                         </ul>
@@ -105,17 +110,17 @@
                 // "lengthChange": false,
                 // "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        //         buttons: [
-        //             {
-        //                 extend: 'excelHtml5',
-        //                 text: 'Save current page',
-        //                 exportOptions: {
-        //                     modifier: {
-        //                         page: 'current'
-        //                     }
-        //                 }
-        //             }
-        //         ]
+                //         buttons: [
+                //             {
+                //                 extend: 'excelHtml5',
+                //                 text: 'Save current page',
+                //                 exportOptions: {
+                //                     modifier: {
+                //                         page: 'current'
+                //                     }
+                //                 }
+                //             }
+                //         ]
 
             })
                 .buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
