@@ -78,7 +78,7 @@
 
 
                         @if(request()->get('category')||request()->get('novu'))
-                            <a href="{{route('analiz')}}" class="btn btn-outline-secondary"><i class="fas fa-sync-alt"></i></a>
+                            <a href="{{route('telyoxla')}}" class="btn btn-outline-secondary"><i class="fas fa-sync-alt"></i></a>
                         @endif
 
 <button type="submit" class="btn btn-primary float-right">Gonder</button>

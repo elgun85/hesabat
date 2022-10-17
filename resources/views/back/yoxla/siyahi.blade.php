@@ -99,9 +99,9 @@
 
                             </tr>
                             <tr >
-                                <td class="text-left" >Say</td>
+                                <td class="text-left" >#</td>
                                 <td>kodqurum</td>
-{{--                                <td>Kodmhm</td>--}}
+                                <td>Kodmhm</td>
                                 <td>say</td>
                                 <td>hesablanma</td>
 {{--                                <td>ay</td>--}}
@@ -115,7 +115,7 @@
       <tr class="text-center">
           <td>{{$loop->iteration}}</td>
           <td>{{$info->kodqurum}}</td>
-{{--          <td>{{$info->kodmhm}}</td>--}}
+          <td>{{$info->kodmhm}}</td>
           <td>{{$info->cemi_say}}</td>
           <td>{{$info->cemi_hesablama}}</td>
 {{--          <td>{{$info->ay}}</td>--}}

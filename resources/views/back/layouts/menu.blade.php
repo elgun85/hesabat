@@ -43,8 +43,20 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
+                <li class="nav-item
+                @if(
+    Request::segment(2)=='muser' or
+    Request::segment(2)=='category' or
+    Request::segment(2)=='mvezife'
+     ) menu-open @endif
+">
+                    <a href="#" class="nav-link
+                @if(
+    Request::segment(2)=='muser' or
+    Request::segment(2)=='category' or
+    Request::segment(2)=='mvezife'
+     ) active @endif
+                        ">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Mhm login
@@ -53,19 +65,19 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('muser.index')}}" class="nav-link">
+                            <a href="{{route('muser.index')}}" class="nav-link @if (Request::segment(2)=='muser') active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>İstifadəçilər</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('category.index')}}" class="nav-link">
+                            <a href="{{route('category.index')}}" class="nav-link @if (Request::segment(2)=='category') active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Kateqoriyalar</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('mvezife.index')}}" class="nav-link">
+                            <a href="{{route('mvezife.index')}}" class="nav-link @if (Request::segment(2)=='mvezife') active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Vəzifələr</p>
                             </a>
@@ -73,8 +85,19 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
+                <li class="nav-item
+                @if(
+    Request::segment(2)=='navbar' or
+    Request::segment(2)=='about'
+     ) menu-open @endif
+">
+                    <a href="#" class="nav-link
+
+                                    @if (
+    Request::segment(2)=='navbar' or
+    Request::segment(2)=='about'
+     ) active @endif
+                    ">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Site
@@ -83,39 +106,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('navbar.index')}}" class="nav-link">
+                            <a href="{{route('navbar.index')}}" class="nav-link @if (Request::segment(2)=='navbar') active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Navbar</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('about.index')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>About</p>
-                            </a>
-                        </li>
-
-
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-newspaper"></i>
-                        <p>
-                            News
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('navbar.index')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Article</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('about.index')}}" class="nav-link">
+                            <a href="{{route('about.index')}}" class="nav-link @if (Request::segment(2)=='about') active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>About</p>
                             </a>
@@ -126,9 +123,38 @@
                 </li>
 
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+
+
+
+
+                <li class="nav-item
+                @if (
+    Request::segment(2)=='Data_monthly' or
+    Request::segment(2)=='data_naz'  or
+    Request::segment(2)=='data_cari'  or
+    Request::segment(2)=='hes_siyahi'  or
+    Request::segment(2)=='siyahi'  or
+    Request::segment(2)=='sen_edv'  or
+    Request::segment(2)=='senedlesme'  or
+    Request::segment(2)=='hesablanma'  or
+    Request::segment(2)=='gelir'
+     ) menu-open @endif
+
+                ">
+                    <a href="#" class="nav-link
+@if (
+    Request::segment(2)=='Data_monthly' or
+    Request::segment(2)=='data_naz'  or
+    Request::segment(2)=='data_cari'  or
+    Request::segment(2)=='hes_siyahi'  or
+    Request::segment(2)=='siyahi'  or
+    Request::segment(2)=='sen_edv'  or
+    Request::segment(2)=='senedlesme'  or
+    Request::segment(2)=='hesablanma'  or
+    Request::segment(2)=='gelir'
+     ) active @endif
+">
+                        <i class="nav-icon fas fa-chart-bar" ></i>
                         <p>
                             Hesabat
                             <i class="right fas fa-angle-left"></i>
@@ -136,62 +162,191 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('tarif.index')}}" class="nav-link">
+                            <a href="{{route('Data_monthly')}}" class="nav-link @if (Request::segment(2)=='Data_monthly') active @endif">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Tariflər</p>
+                                <p> Data monthly</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('analiz')}}" class="nav-link">
+                            <a href="{{route('data_naz')}}" class="nav-link @if (Request::segment(2)=='data_naz') active @endif">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Tarif analizi</p>
+                                <p> Data  nazirlik</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('telyoxla')}}" class="nav-link">
+                            <a href="{{route('data_cari')}}" class="nav-link @if (Request::segment(2)=='data_cari') active @endif">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Telefon yoxla</p>
+                                <p> Data_cari</p>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a href="{{route('hes_siyahi')}}" class="nav-link @if (Request::segment(2)=='hes_siyahi') active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p> Hesablanan mebleg</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('siyahi')}}" class="nav-link @if (Request::segment(2)=='siyahi') active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Siyahı(Ədv-siz)</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('gelir')}}" class="nav-link">
+                            <a href="{{route('sen_edv')}}" class="nav-link @if (Request::segment(2)=='sen_edv') active @endif">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Gəlir</p>
+                                <p>Sənədləşmə(Ədv-siz)</p>
                             </a>
                         </li>
+
+
                         <li class="nav-item">
-                            <a href="{{route('senedlesme')}}" class="nav-link">
+                            <a href="{{route('senedlesme')}}" class="nav-link @if (Request::segment(2)=='senedlesme') active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Sənədləşmə</p>
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a href="{{route('texXid')}}" class="nav-link">
+                            <a href="{{route('hesablanma')}}" class="nav-link @if (Request::segment(2)=='hesablanma') active @endif">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Tex ver(289)</p>
+                                <p>Hesablanma</p>
                             </a>
                         </li>
+
+
+
                         <li class="nav-item">
-                            <a href="{{route('siyahi')}}" class="nav-link">
+                            <a href="{{route('gelir')}}" class="nav-link @if (Request::segment(2)=='gelir') active @endif">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Siyahı</p>
+                                <p>Gəlir</p>
                             </a>
                         </li>
+
+
+                    </ul>
+                </li>
+
+
+
+
+                <li class="nav-item
+                 @if (
+    Request::segment(2)=='kod_tarif' or
+    Request::segment(2)=='telyoxla'  or
+    Request::segment(2)=='xidmet'  or
+    Request::segment(2)=='tarif'  or
+    Request::segment(2)=='texXid'  or
+    Request::segment(2)=='hes_yoxla'  or
+    Request::segment(2)=='texniki'
+     ) menu-open @endif
+
+                 ">
+                    <a href="#" class="nav-link
+@if (
+    Request::segment(2)=='kod_tarif' or
+    Request::segment(2)=='telyoxla'  or
+    Request::segment(2)=='xidmet'  or
+    Request::segment(2)=='tarif'  or
+    Request::segment(2)=='texXid'  or
+    Request::segment(2)=='hes_yoxla'  or
+    Request::segment(2)=='texniki'
+     ) active @endif
+                        ">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Analiz
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
                         <li class="nav-item">
-                            <a href="{{route('texniki')}}" class="nav-link">
+                            <a href="{{route('kod_tarif')}}" class="nav-link @if (Request::segment(2)=='kod_tarif') active @endif">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Texniki verilənlər</p>
+                                <p>Kad tarif</p>
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a href="{{route('xidmet')}}" class="nav-link">
+                            <a href="{{route('hes_yoxla')}}" class="nav-link @if (Request::segment(2)=='hes_yoxla') active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Hesablanma yoxla</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('telyoxla')}}" class="nav-link @if (Request::segment(2)=='telyoxla') active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Xidmet yoxla</p>
+                            </a>
+                        </li>
+
+
+
+                        <li class="nav-item">
+                            <a href="{{route('xidmet')}}" class="nav-link @if (Request::segment(2)=='xidmet') active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Xidmet analizi</p>
                             </a>
                         </li>
 
+
+                        <li class="nav-item">
+                            <a href="{{route('tarif.index')}}" class="nav-link @if (Request::segment(2)=='tarif') active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Tariflər</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('texXid')}}" class="nav-link @if (Request::segment(2)=='texXid') active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Tex xid(289)</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('texniki')}}" class="nav-link @if (Request::segment(2)=='texniki') active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Texniki verilənlər</p>
+                            </a>
+                        </li>
+
+
                     </ul>
                 </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Numuneler
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('saxeli')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>İstifadəçilər</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('test1')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>test1</p>
+                            </a>
+                        </li>
+
+
+
+                    </ul>
+                </li>
+
 
                 <li class="nav-item">
                     <a href="{{route('table')}}" class="nav-link">

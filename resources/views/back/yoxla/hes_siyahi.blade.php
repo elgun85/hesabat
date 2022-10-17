@@ -1,5 +1,5 @@
 @extends('back.layouts.master')
-@section('title',request()->get('ay').' '.request()->get('il').' Aylıq Sənədləşmələr üzrə hesabat')
+@section('title','1.'.request()->get('ay').'.'.request()->get('il').' -tarixə olan məlumat')
 
 @section('content')
     <div class="content-wrapper">
@@ -10,7 +10,7 @@
                     <div class="col-sm-6">
                         <h1>
                             @if((request()->get('il')) and (request()->get('ay')) )
-                                {{request()->get('ay')}}-{{ request()->get('il')}} Aylıq Sənədləşmələr üzrə hesabat
+                             1.{{request()->get('ay')}}.{{ request()->get('il')}} -tarixə olan məlumat
                             @endif
                         </h1>
                     </div>
@@ -30,9 +30,19 @@
             <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title"> <form action="{{route('senedlesme')}}" method="get" name="formdan">
+                    <div class="card-title">
+                        <form action="{{route('hes_siyahi')}}" method="get" name="formdan">
                             @csrf
                             <div class="form-row align-items-center">
+                                <div class="col-auto">
+                                    <select class="form-control mb-2" name="kat" aria-label="Default select example" >
+                                        <option value="" selected>Kateqoriya  </option>
+                                        <option value="1" @if(request()->get('kat')==1) selected @endif>Menzil  </option>
+                                        <option value="2" @if(request()->get('kat')==2) selected @endif>Qurum  </option>
+                                    </select>
+                                </div>
+
+
                                 <div class="col-auto">
                                     <select class="form-control mb-2" name="ay" aria-label="Default select example" >
                                         <option value="" selected>Ay seçin  </option>
@@ -91,84 +101,42 @@
                         <table id="example1" class="table table-bordered table-striped ">
                             <thead class="text-center text-bold">
                             <tr >
-                                <td class="text-left"> {{request()->get('ay')}}-{{ request()->get('il')}}</td>
-{{--                                <td colspan="4" class="text-center" >Mənzil</td>--}}
-{{--                                <td colspan="4" class="text-center">Qurum</td>--}}
-                                <td colspan="6" class="text-center">Cəmi-yuxari</td>
+                                <td class="text-left">
+                               1.{{request()->get('ay')}}.{{ request()->get('il')}}</td>
+                                <td colspan="6" class="text-center">Cəmi</td>
 
 
                             </tr>
                             <tr >
-                                <td class="text-left" >Xidmət adı</td>
-
-{{--                                <td>Say(M)</td>--}}
-{{--                                <td>Ədv-si(M)</td>--}}
-{{--                                <td>Əsas(M)</td>--}}
-{{--                                <td>Məbləğ(M)</td>--}}
-
-{{--                                <td>Say(Q)</td>--}}
-{{--                                <td>Ədv-si(Q)</td>--}}
-{{--                                <td>Əsas(Q)</td>--}}
-{{--                                <td>Məbləğ(Q)</td>--}}
-
-                                <td>Say</td>
-{{--                                <td>Ədv-siz(Cəmi)</td>--}}
-{{--                                <td>Ədv-li(Cəmi)</td>--}}
-                                <td>Ədv-si</td>
-                                <td>Əsas məbləği</td>
-                                <td>Məbləğ</td>
+                                <td class="text-left" >#</td>
+                                <td>Telefon</td>
+                                <td>Kodqurum</td>
+                                <td>Kodmhm</td>
+                                <td>hesablanma</td>
+{{--                                <td>ay</td>--}}
 
 
                             </tr>
 
                             </thead>
                             <tbody>
-                            @foreach($data as $sened)
+                            @foreach($data as $info)
       <tr class="text-center">
-
-
-          @if($sened->xidmetin_novu=='Cəmi')
-              <td class="text-left text-bold"><b>{{$sened->xidmetin_novu}}</b></td>
-          @else
-              <td class="text-left">{{$sened->xidmetin_novu}}</td>
-          @endif
-{{--              <td>{{$sened->menzil_say}}</td>--}}
-{{--          <td>{{round(($sened->menzil_summa-round(($sened->menzil_summa/1.18),2)),2)}}</td>--}}
-{{--          <td>{{round(($sened->menzil_summa/1.18),2)}}</td>--}}
-{{--          <td>{{round(($sened->menzil_summa),2)}}</td>--}}
-
-{{--          <td>{{$sened->idere_say}}</td>--}}
-{{--          <td>{{$qurum_edv=(round(($sened->idere_summa),2) -round((($sened->idere_summa-$sened->idere_edv)/1.18+$sened->idere_edv),2) )  }}</td>--}}
-{{--          <td>{{$esas_qurum_mebleg=round((($sened->idere_summa-$sened->idere_edv)/1.18+$sened->idere_edv),2)}}</td>--}}
-{{--          <td>{{round(($sened->idere_summa),2)}}</td>--}}
-
-          <td>{{$sened->cemi_say}}</td>
-{{--          <td>{{$sened->idere_edv_siz}}</td>--}}
-{{--          <td>{{$sened->idere_edv_li}}</td>--}}
-
-          <td>{{$cemi_edv=round(($sened->cemi_hesab-round((($sened->cemi_hesab-$sened->idere_edv)/1.18+$sened->idere_edv),2)),2)}}</td>
-
-{{--          <td>{{$cemi_edv=round(($sened->cemi_hesab-),2)}}</td>--}}
-          <td>{{$cemi_esas=( round((($sened->cemi_hesab-$sened->idere_edv)/1.18+$sened->idere_edv),2)) }}</td>
-          <td>{{$cemi_mebleg=round(($sened->cemi_hesab),2)}}</td>
+          <td>{{$loop->iteration}}</td>
+          <td>{{$info->notel}}</td>
+          <td>{{$info->kodqurum}}</td>
+          <td>{{$info->kodmhm}}</td>
+{{--          <td>{{$info->cemi_say}}</td>--}}
+          <td>{{$info->cemi_hesablama}}</td>
+{{--          <td>{{$info->ay}}</td>--}}
       </tr>
                             @endforeach
                             </tbody>
                             <tfoot >
-
-
-
-
                             </tfoot>
                         </table>
                         {{--                cedvel son--}}
-
-
-
                     @endif
-
-
-
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">

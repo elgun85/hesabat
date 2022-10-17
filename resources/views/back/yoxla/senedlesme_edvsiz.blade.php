@@ -1,5 +1,5 @@
 @extends('back.layouts.master')
-@section('title',request()->get('ay').' '.request()->get('il').' Aylıq Sənədləşmələr üzrə hesabat')
+@section('title',request()->get('ay').' '.request()->get('il').' Ədv  Sənədləşmələr üzrə siyahı')
 
 @section('content')
     <div class="content-wrapper">
@@ -10,7 +10,7 @@
                     <div class="col-sm-6">
                         <h1>
                             @if((request()->get('il')) and (request()->get('ay')) )
-                                {{request()->get('ay')}}-{{ request()->get('il')}} Aylıq Sənədləşmələr üzrə hesabat
+                                {{request()->get('ay')}}-{{ request()->get('il')}} Aylıq Ədv-siz sənədləşmələr üzrə siyahı
                             @endif
                         </h1>
                     </div>
@@ -30,7 +30,7 @@
             <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title"> <form action="{{route('senedlesme')}}" method="get" name="formdan">
+                    <div class="card-title"> <form action="{{route('sen_edv')}}" method="get" name="formdan">
                             @csrf
                             <div class="form-row align-items-center">
                                 <div class="col-auto">
@@ -92,67 +92,49 @@
                             <thead class="text-center text-bold">
                             <tr >
                                 <td class="text-left"> {{request()->get('ay')}}-{{ request()->get('il')}}</td>
-{{--                                <td colspan="4" class="text-center" >Mənzil</td>--}}
-{{--                                <td colspan="4" class="text-center">Qurum</td>--}}
-                                <td colspan="6" class="text-center">Cəmi-yuxari</td>
+                                <td colspan="6" class="text-center">Cəmi</td>
 
 
                             </tr>
                             <tr >
-                                <td class="text-left" >Xidmət adı</td>
-
-{{--                                <td>Say(M)</td>--}}
-{{--                                <td>Ədv-si(M)</td>--}}
-{{--                                <td>Əsas(M)</td>--}}
-{{--                                <td>Məbləğ(M)</td>--}}
-
-{{--                                <td>Say(Q)</td>--}}
-{{--                                <td>Ədv-si(Q)</td>--}}
-{{--                                <td>Əsas(Q)</td>--}}
-{{--                                <td>Məbləğ(Q)</td>--}}
-
-                                <td>Say</td>
-{{--                                <td>Ədv-siz(Cəmi)</td>--}}
-{{--                                <td>Ədv-li(Cəmi)</td>--}}
-                                <td>Ədv-si</td>
-                                <td>Əsas məbləği</td>
+                                <td class="text-left" >Ad</td>
+                                <td>MHM_hesab</td>
+                                <td>LKŞ_hesab</td>
+                                <td>Kod_ximət</td>
+                                <td>Kateqor</td>
                                 <td>Məbləğ</td>
-
-
                             </tr>
 
                             </thead>
                             <tbody>
-                            @foreach($data as $sened)
-      <tr class="text-center">
+{{--                            @php
+                                $i = 0;
+                            @endphp--}}
 
+                            @foreach($data as $odenis)
+                              <tr class="text-center">
+                                  <td class="text-left" >{{$odenis->adqurum}}</td>
+                                  <td>{{$odenis->kodmhm}}</td>
+                                  <td>{{$odenis->kodqurum}}</td>
+                                  <td>{{$odenis->kodxidmet}}</td>
+                                  <td>{{$odenis->kateqor}}</td>
+                                  <td>{{$odenis->summa}}</td>
+                              </tr>
 
-          @if($sened->xidmetin_novu=='Cəmi')
-              <td class="text-left text-bold"><b>{{$sened->xidmetin_novu}}</b></td>
-          @else
-              <td class="text-left">{{$sened->xidmetin_novu}}</td>
-          @endif
-{{--              <td>{{$sened->menzil_say}}</td>--}}
-{{--          <td>{{round(($sened->menzil_summa-round(($sened->menzil_summa/1.18),2)),2)}}</td>--}}
-{{--          <td>{{round(($sened->menzil_summa/1.18),2)}}</td>--}}
-{{--          <td>{{round(($sened->menzil_summa),2)}}</td>--}}
+{{--                                @php
+                                    $i = $i + $odenis->summa;
+                                @endphp--}}
 
-{{--          <td>{{$sened->idere_say}}</td>--}}
-{{--          <td>{{$qurum_edv=(round(($sened->idere_summa),2) -round((($sened->idere_summa-$sened->idere_edv)/1.18+$sened->idere_edv),2) )  }}</td>--}}
-{{--          <td>{{$esas_qurum_mebleg=round((($sened->idere_summa-$sened->idere_edv)/1.18+$sened->idere_edv),2)}}</td>--}}
-{{--          <td>{{round(($sened->idere_summa),2)}}</td>--}}
-
-          <td>{{$sened->cemi_say}}</td>
-{{--          <td>{{$sened->idere_edv_siz}}</td>--}}
-{{--          <td>{{$sened->idere_edv_li}}</td>--}}
-
-          <td>{{$cemi_edv=round(($sened->cemi_hesab-round((($sened->cemi_hesab-$sened->idere_edv)/1.18+$sened->idere_edv),2)),2)}}</td>
-
-{{--          <td>{{$cemi_edv=round(($sened->cemi_hesab-),2)}}</td>--}}
-          <td>{{$cemi_esas=( round((($sened->cemi_hesab-$sened->idere_edv)/1.18+$sened->idere_edv),2)) }}</td>
-          <td>{{$cemi_mebleg=round(($sened->cemi_hesab),2)}}</td>
-      </tr>
                             @endforeach
+
+                                <tr class="text-center">
+                                    <td class="text-left" >Cəmi</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{$hes}}</td>
+                                </tr>
                             </tbody>
                             <tfoot >
 
@@ -170,6 +152,9 @@
 
 
                 </div>
+{{--                    @php echo  $i;
+                    @endphp--}}
+
                 <!-- /.card-body -->
                 <div class="card-footer">
                     Footer

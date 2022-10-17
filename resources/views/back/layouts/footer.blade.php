@@ -36,5 +36,6 @@
     @yield('table_js')
     @yield('gel_sen_js')
     @yield('summernote_js')
+    @yield('dropdown_menu_js')
 
 </html>

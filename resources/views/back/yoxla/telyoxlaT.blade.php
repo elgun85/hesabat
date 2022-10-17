@@ -55,12 +55,14 @@
     <tbody>
     <tr>
         <td>
+{{--@if($axtar->tarifs>0)
              {{$axtar->tarifs}}
+            @endif
                            @foreach($tarifler as $tar)
                               @if($axtar->tarifs == $tar->kod)
                                  ( {{$tar->name}} )
                 @endif
-                    @endforeach
+                    @endforeach--}}
 
         </td>
         <td>{{$say_men}}</td>
