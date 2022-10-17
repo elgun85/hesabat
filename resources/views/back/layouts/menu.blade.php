@@ -331,7 +331,14 @@
                         <li class="nav-item">
                             <a href="{{route('saxeli')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>İstifadəçilər</p>
+                                <p>İstifadəçilər (saxeli)</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('api')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Api</p>
                             </a>
                         </li>
 
@@ -341,6 +348,8 @@
                                 <p>test1</p>
                             </a>
                         </li>
+
+
 
 
 

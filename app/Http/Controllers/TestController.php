@@ -27,21 +27,22 @@ class TestController extends Controller
 {
     public function test1()
     {
-   //   return
-
-
-
-
-
           $data=MhmLoginCategory::
                 with('ata')
               ->withCount('ata')
               ->get()
         ;
-
-
-
         return view('back.test.test',compact('data'));
+    }
+
+    public function api()
+    {
+          $data=MhmLoginCategory::
+                with('ata')
+              ->withCount('ata')
+              ->get()
+        ;
+        return view('back.test.api',compact('data'));
     }
 
 

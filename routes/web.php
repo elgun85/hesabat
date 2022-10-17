@@ -58,6 +58,7 @@ Route::group(['middleware'=>['auth','authadmin'],'prefix'=>'admin'],function ()
 
         Route::get('test',[TestController::class,'skaf'])->name('test');
         Route::get('test1',[TestController::class,'test1'])->name('test1');
+        Route::get('api',[TestController::class,'api'])->name('api');
         Route::get('saxeli',[TestController::class,'saxeli'])->name('saxeli');
 
         Route::get('table',[ProductController::class,'table'])->name('table');

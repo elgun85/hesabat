@@ -1,5 +1,5 @@
 @extends('back.layouts.master')
-@section('title','istifadəçilərin şaxəli düzülüşü')
+@section('title','Api uzre  numuneler')
 
 @section('content')
     <div class="content-wrapper">
