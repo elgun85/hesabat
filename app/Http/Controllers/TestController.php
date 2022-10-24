@@ -21,82 +21,97 @@ use App\Models\bank_2021;
 use App\Models\skaf;
 use App\Models\kuce;
 use App\Models\flabunes;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\Response;
+use GuzzleHttp\Cookie\CookieJar;
 
 
 class TestController extends Controller
 {
-    public function test1()
-    {
-          $data=MhmLoginCategory::
-                with('ata')
-              ->withCount('ata')
-              ->get()
-        ;
-        return view('back.test.test',compact('data'));
-    }
+
 
     public function api()
     {
-          $data=MhmLoginCategory::
-                with('ata')
-              ->withCount('ata')
-              ->get()
-        ;
-        return view('back.test.api',compact('data'));
+
+
+        $response = Http::get('https://dailyprayer.abdulrcs.repl.co/api/Baku');
+
+        //return
+        $response->json();
+
+
+        return view('back.test.api', compact('response'));
     }
 
+    /*
+        private $giphy;
+        public function __construct()
+        {
+            $this->auth=
+                [
+                  'api_key'=>'JaxFgHS27ubrYpZlD9NpHcTuRkKHV2tq',
+                ];
+            $this->giphy = new Client
+            (
+                [
+                    'base_uri'=>'https://api.giphy.com',
+                    'headers'=>$this->auth,
+                ]
+            );
+        }
 
+        public function api()
+        {
+
+            return$response=$this->giphy->request('GET','v1/stickers/trending',
+        [
+            'query'=>[
+
+            ],
+        ])->getBody()->getContents();
+            dd($response);
+
+            return view('back.test.api',compact('response'));
+        }
+    */
+
+
+    public function test1()
+    {
+        $data = MhmLoginCategory::
+        with('ata')
+            ->withCount('ata')
+            ->get();
+        return view('back.test.test', compact('data'));
+    }
 
 
     public function saxeli()
     {
 
-        $data=MhmLoginCategory::
+        $data = MhmLoginCategory::
         with('ata')
             ->withCount('ata')
-            ->get()
-        ;
+            ->get();
 
 
-        return view('back.test.istifadeci',compact('data'));
+        return view('back.test.istifadeci', compact('data'));
     }
 
     public function skaf()
     {
- //   return
-    $data=DB::table('nomre as N')
-    //    ->where('rayon',1)
-    //    ->where('herf','A')
-    ->take(10)
-    ->get();
+        //   return
+        $data = DB::table('nomre as N')
+            //    ->where('rayon',1)
+            //    ->where('herf','A')
+            ->take(10)
+            ->get();
 
-        return view('test',compact('data'));
+        return view('test', compact('data'));
 
 
 //        qruplamaq ve qrup sayi tapmaq + istenilen sutunlari cagirmaq
-
-/*
-      $T=DB::table('mhm_logins as log');
-        $T1=DB::table(DB::raw("({$T->toSql()}) as T1"));
-        $T1=$T1->select('vez_id',
-            'name',
-            'login',
-            $T1->raw('count(vez_id) as  vez_say')
-        );
-        return $T1=$T1
-            ->groupBy('vez_id')
-            ->take(150)->get();
-
-tek stuna gore qruplamaq
-
-
-       return $T=DB::table('mhm_logins as log')
-        ->select('vez_id',
-            DB::raw('count(vez_id) as  vez_say')
-        )
-            ->groupBy('vez_id')
-            ->take(150)->get();
-*/
 
         /*
               $T=DB::table('mhm_logins as log');
@@ -121,8 +136,28 @@ tek stuna gore qruplamaq
                     ->take(150)->get();
         */
 
+        /*
+              $T=DB::table('mhm_logins as log');
+                $T1=DB::table(DB::raw("({$T->toSql()}) as T1"));
+                $T1=$T1->select('vez_id',
+                    'name',
+                    'login',
+                    $T1->raw('count(vez_id) as  vez_say')
+                );
+                return $T1=$T1
+                    ->groupBy('vez_id')
+                    ->take(150)->get();
+
+        tek stuna gore qruplamaq
 
 
+               return $T=DB::table('mhm_logins as log')
+                ->select('vez_id',
+                    DB::raw('count(vez_id) as  vez_say')
+                )
+                    ->groupBy('vez_id')
+                    ->take(150)->get();
+        */
 
 
         /*
@@ -199,24 +234,10 @@ return $T3=$T3->get();
                 ->get();*/
 
 
-
-
     }
 
 
-
-
-
-
-
-
 //siyahi
-
-
-
-
-
-
 
 
 }
