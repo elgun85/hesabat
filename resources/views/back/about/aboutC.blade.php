@@ -51,7 +51,7 @@
 
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"> </label>
-                                            <img class="rounded float-start " id="preview-image-before-upload" src=""width="100px"> <br>
+                                            <img class="rounded float-start " id="preview-image-before-upload" src="" width="100px"> <br>
                                             <br>
                                             <br>
                                             <input type="file" id="image" class="form-control-file" name="image" wire:model="image">

@@ -130,6 +130,7 @@
                 <li class="nav-item
                 @if (
     Request::segment(2)=='Data_monthly' or
+    Request::segment(2)=='aciqlama' or
     Request::segment(2)=='data_naz'  or
     Request::segment(2)=='data_cari'  or
     Request::segment(2)=='hes_siyahi'  or
@@ -144,6 +145,7 @@
                     <a href="#" class="nav-link
 @if (
     Request::segment(2)=='Data_monthly' or
+    Request::segment(2)=='aciqlama' or
     Request::segment(2)=='data_naz'  or
     Request::segment(2)=='data_cari'  or
     Request::segment(2)=='hes_siyahi'  or
@@ -165,6 +167,12 @@
                             <a href="{{route('Data_monthly')}}" class="nav-link @if (Request::segment(2)=='Data_monthly') active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p> Data monthly</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('aciqlama')}}" class="nav-link @if (Request::segment(2)=='aciqlama') active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p> Data_M Açıqlama</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -240,6 +248,8 @@
     Request::segment(2)=='tarif'  or
     Request::segment(2)=='texXid'  or
     Request::segment(2)=='hes_yoxla'  or
+    Request::segment(2)=='hes_yoxla5'  or
+    Request::segment(2)=='ourserv'  or
     Request::segment(2)=='texniki'
      ) menu-open @endif
 
@@ -252,6 +262,8 @@
     Request::segment(2)=='tarif'  or
     Request::segment(2)=='texXid'  or
     Request::segment(2)=='hes_yoxla'  or
+    Request::segment(2)=='hes_yoxla5'  or
+    Request::segment(2)=='ourserv'  or
     Request::segment(2)=='texniki'
      ) active @endif
                         ">
@@ -274,6 +286,13 @@
                             <a href="{{route('hes_yoxla')}}" class="nav-link @if (Request::segment(2)=='hes_yoxla') active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Hesablanma yoxla</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('hes_yoxla5')}}" class="nav-link @if (Request::segment(2)=='hes_yoxla5') active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>hes_yoxla5</p>
                             </a>
                         </li>
 
@@ -305,6 +324,13 @@
                             <a href="{{route('texXid')}}" class="nav-link @if (Request::segment(2)=='texXid') active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Tex xid(289)</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('ourserv')}}" class="nav-link @if (Request::segment(2)=='ourserv') active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Our Serv</p>
                             </a>
                         </li>
 

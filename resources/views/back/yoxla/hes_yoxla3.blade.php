@@ -31,7 +31,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
-                        <form action="{{route('hes_yoxla')}}" method="get" name="formdan">
+                        <form action="{{route('hes_yoxla2')}}" method="get" name="formdan">
                             @csrf
                             <div class="form-row align-items-center">
 
@@ -90,6 +90,9 @@
                 </div>
 
 
+
+
+
                 <div class="card-body">
                     @if (request()->get('il') and request()->get('ay'))
                         {{--                cedvel evvel --}}
@@ -105,35 +108,28 @@
                             </thead>
                             <tbody>
 
-                            @foreach($M as $notel => $mhm)
 
-                                <tr>
-                                    {{--<td>{{$mhm->notel}}</td>--}}
-                                   {{-- <td>{{var_dump($mhm) }}</td>--}}
-                                    <td>{{$mhm[$notel] ["kodqurum"] }}</td>
-                                </tr>
-{{--                                @if( array_key_exists($notel,$data) )
-                                    @if(($data[$notel]['cemi_hesablama'] - $mhm->cemi_hesablama )>0)
-                                        <tr class="text-center">
-                                            <td>{{$mhm->notel}}</td>--}}{{--
-                                            <td>{{$M[$notel]['notel']}}</td>
---}}{{--
-                                            <td>{{$mhm->cemi_hesablama}}</td>
-                                            <td>{{$data[$notel]['cemi_hesablama']}}</td>
-                                            <td>{{($data[$notel]['cemi_hesablama'] - $mhm->cemi_hesablama )}}</td>
+
+                            @foreach($data as $lks)
+                                @if(array_key_exists($lks->notel,$M))
+                                    @if( ($lks->cemi_hesablama-$M[$lks->notel]['cemi_hesablama'])>0.3)
+                                        <tr>
+                                            <td>{{$lks->notel}}</td>
+                                            <td>{{$lks->cemi_hesablama}}</td>
+                                            <td>{{$M[$lks->notel]['cemi_hesablama']}}</td>
+                                            <td>{{$lks->cemi_hesablama-$M[$lks->notel]['cemi_hesablama']}}</td>
                                         </tr>
                                     @endif
                                 @else
---}}{{--<tr>
-    <td style="color: red">00->{{$lks->notel}}</td>
-
-    <td> </td>
-    <td> </td>
-    <td> </td>
-</tr>
-        --}}{{--              <tr><td>Elgun</td></tr>
-                                @endif--}}
+                                    <tr>
+                                        <td style="color: red">{{$lks->notel}}</td>
+                                        <td> </td>
+                                        <td> {{$lks->cemi_hesablama}} </td>
+                                        <td> </td>
+                                    </tr>
+                                @endif
                             @endforeach
+
                             </tbody>
                             <tfoot >
                             </tfoot>

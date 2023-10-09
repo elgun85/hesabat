@@ -31,7 +31,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
-                        <form action="{{route('hes_yoxla')}}" method="get" name="formdan">
+                        <form action="{{route('hes_yoxla5')}}" method="get" name="formdan">
                             @csrf
                             <div class="form-row align-items-center">
 
@@ -105,42 +105,47 @@
                             </thead>
                             <tbody>
 
-                            @foreach($data as $lks)
-                                @if(array_key_exists($lks->notel,$M))
-                                    @if( ($lks->cemi_hesablama-$M[$lks->notel]['cemi_hesablama'])>0.3)
+                            @foreach($lks_hesablama as $lks)
+                                @if(array_key_exists($lks->notel,$mhm_toarray))
+                                    @if( ($lks->cemi_hesablama-$mhm_toarray[$lks->notel]['cemi_hesablama'])>0.1)
                                         <tr>
                                             <td>{{$lks->notel}}</td>
                                             <td>{{$lks->cemi_hesablama}}</td>
-                                            <td>{{$M[$lks->notel]['cemi_hesablama']}}</td>
-                                            <td>{{$lks->cemi_hesablama-$M[$lks->notel]['cemi_hesablama']}}</td>
+                                            <td>{{$mhm_toarray[$lks->notel]['cemi_hesablama']}}</td>
+                                            <td>{{$lks->cemi_hesablama-$mhm_toarray[$lks->notel]['cemi_hesablama']}}</td>
                                         </tr>
                                     @endif
+
+
                                 @else
+
+
                                     <tr>
                                         <td style="color: red">{{$lks->notel}}</td>
-                                        <td> </td>
-                                        <td> {{$lks->cemi_hesablama}} </td>
-                                        <td> </td>
+                                        <td>{{$lks->cemi_hesablama}}</td>
+                                        <td></td>
+                                        <td></td>
+{{--                                        <td>{{$mhm_toarray[$lks->notel]['cemi_hesablama']}}</td>
+                                        <td>{{$lks->cemi_hesablama-$mhm_toarray[$lks->notel]['cemi_hesablama']}}</td>--}}
                                     </tr>
                                 @endif
                             @endforeach
-{{--
-mhm-ile lks yoxla
-                            @foreach($L as $mhm)
-                                @if(array_key_exists($mhm->notel,$mata))
-                                    @if(($mata[$mhm->notel]->cemi_hesablama-$mhm->cemi_hesablama)>0.3)
-                                        <tr style="color: blue">
-
-                                            <td >a {{$mata[$mhm->notel]->notel}}</td>
+                            <h1>elg
+                                <hr>
+                            </h1>
+                            @foreach($mhm_hesablama as $mhm)
+                                @if(array_key_exists($mhm->notel,$lks_toarray))
+                                {{--    @if($mhm->cemi_hesablama-$lks_toarray[$mhm->notel]['cemi_hesablama']>0.1)--}}
+{{--                                        <tr style="color: darkgreen">
+                                            <td>{{$mhm->notel}}</td>
                                             <td>{{$mhm->cemi_hesablama}}</td>
-                                            <td>{{$mata[$mhm->notel]->cemi_hesablama}}</td>
-                                            <td>{{$mhm->cemi_hesablama-$mata[$mhm->notel]->cemi_hesablama}}</td>
-                                        </tr>
-                                    @endif
+                                            <td>{{$lks_toarray[$mhm->notel]['cemi_hesablama']}}</td>
+                                            <td>{{$mhmks->cemi_hesablama-$lks_toarray[$mhm->notel]['cemi_hesablama']}}</td>
+                                        </tr>--}}
+                                  {{--  @endif--}}
                                 @endif
                             @endforeach
 
-                            --}}
                             </tbody>
                             <tfoot >
                             </tfoot>
@@ -162,56 +167,56 @@ mhm-ile lks yoxla
     </div>
 
 
-@section('data_table_ccs')
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/jq-3.6.0/jszip-2.5.0/dt-1.11.3/b-2.2.1/b-colvis-2.2.1/b-html5-2.2.1/b-print-2.2.1/kt-2.6.4/sb-1.3.0/sp-1.4.0/sl-1.3.4/datatables.min.css"/>
-@endsection
+    @section('data_table_ccs')
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/jq-3.6.0/jszip-2.5.0/dt-1.11.3/b-2.2.1/b-colvis-2.2.1/b-html5-2.2.1/b-print-2.2.1/kt-2.6.4/sb-1.3.0/sp-1.4.0/sl-1.3.4/datatables.min.css"/>
+    @endsection
 
-@section('data_table_js')
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jq-3.6.0/jszip-2.5.0/dt-1.11.3/b-2.2.1/b-colvis-2.2.1/b-html5-2.2.1/b-print-2.2.1/kt-2.6.4/sb-1.3.0/sp-1.4.0/sl-1.3.4/datatables.min.js"></script>
+    @section('data_table_js')
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/js/bootstrap.bundle.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jq-3.6.0/jszip-2.5.0/dt-1.11.3/b-2.2.1/b-colvis-2.2.1/b-html5-2.2.1/b-print-2.2.1/kt-2.6.4/sb-1.3.0/sp-1.4.0/sl-1.3.4/datatables.min.js"></script>
 
-    <script>
-        $(function () {
-            $("#example1").DataTable({
-                "pageLength": 15,
-                "lengthMenu": [ [15, 25, 50, -1], [15, 25, 50, "All"] ],
-                "responsive": true,
-                // "lengthChange": false,
-                // "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-                //         buttons: [
-                //             {
-                //                 extend: 'excelHtml5',
-                //                 text: 'Save current page',
-                //                 exportOptions: {
-                //                     modifier: {
-                //                         page: 'current'
-                //                     }
-                //                 }
-                //             }
-                //         ]
+        <script>
+            $(function () {
+                $("#example1").DataTable({
+                    "pageLength": 15,
+                    "lengthMenu": [ [15, 25, 50, -1], [15, 25, 50, "All"] ],
+                    "responsive": true,
+                    // "lengthChange": false,
+                    // "autoWidth": false,
+                    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                    //         buttons: [
+                    //             {
+                    //                 extend: 'excelHtml5',
+                    //                 text: 'Save current page',
+                    //                 exportOptions: {
+                    //                     modifier: {
+                    //                         page: 'current'
+                    //                     }
+                    //                 }
+                    //             }
+                    //         ]
 
-            })
-                .buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+                })
+                    .buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
 
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
+                $('#example2').DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": false,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                    "responsive": true,
+                });
             });
-        });
 
 
-    </script>
-@endsection
+        </script>
+    @endsection
 
 
 

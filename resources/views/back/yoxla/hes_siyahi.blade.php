@@ -39,6 +39,9 @@
                                         <option value="" selected>Kateqoriya  </option>
                                         <option value="1" @if(request()->get('kat')==1) selected @endif>Menzil  </option>
                                         <option value="2" @if(request()->get('kat')==2) selected @endif>Qurum  </option>
+                                        <option value="3" @if(request()->get('kat')==3) selected @endif>Menzil+Qurum  </option>
+                                        <option value="4" @if(request()->get('kat')==4) selected @endif>Qurum hesab uzre </option>
+                                        <option value="5" @if(request()->get('kat')==5) selected @endif>Prov hesab uzre </option>
                                     </select>
                                 </div>
 
@@ -112,10 +115,9 @@
                                 <td>Telefon</td>
                                 <td>Kodqurum</td>
                                 <td>Kodmhm</td>
-                                <td>hesablanma</td>
-{{--                                <td>ay</td>--}}
-
-
+                                <td>hesab</td>
+                                <td>prov_hes</td>
+                                <td>cem hesab</td>
                             </tr>
 
                             </thead>
@@ -123,10 +125,18 @@
                             @foreach($data as $info)
       <tr class="text-center">
           <td>{{$loop->iteration}}</td>
-          <td>{{$info->notel}}</td>
+          @if(request()->kat==4)
+              <td>{{$info->kodmhm}}</td>
+          @elseif(request()->kat==5)
+              <td>{{$info->hesab}}</td>
+          @else
+              <td>{{$info->notel}}</td>
+
+          @endif
           <td>{{$info->kodqurum}}</td>
           <td>{{$info->kodmhm}}</td>
-{{--          <td>{{$info->cemi_say}}</td>--}}
+          <td>{{$info->hesablama}}</td>
+          <td>{{$info->prov_hes}}</td>
           <td>{{$info->cemi_hesablama}}</td>
 {{--          <td>{{$info->ay}}</td>--}}
       </tr>
@@ -171,18 +181,6 @@
                 // "lengthChange": false,
                 // "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        //         buttons: [
-        //             {
-        //                 extend: 'excelHtml5',
-        //                 text: 'Save current page',
-        //                 exportOptions: {
-        //                     modifier: {
-        //                         page: 'current'
-        //                     }
-        //                 }
-        //             }
-        //         ]
-
             })
                 .buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 

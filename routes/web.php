@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\TarifController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\Admin\NavbarController;
 use App\Http\Controllers\Admin\AboutController;
+use App\Http\Controllers\OurservController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +70,7 @@ Route::group(['middleware'=>['auth','authadmin'],'prefix'=>'admin'],function ()
         Route::get('telyoxlaS',[TarifController::class,'telyoxlaS'])->name('telyoxlaS');
         Route::get('gelir',[TarifController::class,'gelir'])->name('gelir');
         Route::get('Data_monthly',[TarifController::class,'Data_monthly'])->name('Data_monthly');
+        Route::get('aciqlama',[TarifController::class,'aciqlama'])->name('aciqlama');
         Route::get('data_cari',[TarifController::class,'data_cari'])->name('data_cari');
         Route::get('senedlesme',[TarifController::class,'senedlesme'])->name('senedlesme');
         Route::get('texXid',[TarifController::class,'texXid'])->name('texXid');
@@ -79,6 +81,13 @@ Route::group(['middleware'=>['auth','authadmin'],'prefix'=>'admin'],function ()
         Route::get('data_naz',[TarifController::class,'data_naz'])->name('data_naz');
         Route::get('hes_siyahi',[TarifController::class,'hes_siyahi'])->name('hes_siyahi');
         Route::get('hes_yoxla',[TarifController::class,'hes_yoxla'])->name('hes_yoxla');
+
+
+
+        Route::get('ourserv',[OurservController::class,'index'])->name('ourserv');
+
+        Route::get('hes_yoxla5',[TarifController::class,'hes_yoxla5'])->name('hes_yoxla5');
+
         Route::get('texniki',[TarifController::class,'texniki'])->name('texniki');
         Route::get('xidmet',[TarifController::class,'xidmet'])->name('xidmet');
 

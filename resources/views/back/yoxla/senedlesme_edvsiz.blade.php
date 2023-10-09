@@ -37,26 +37,22 @@
                                     <select class="form-control mb-2" name="ay" aria-label="Default select example" >
                                         <option value="" selected>Ay seçin  </option>
                                         @if(request()->get('ay') !=0)
-                                        <option  @if(request()->get('ay')) selected @endif   value="{{request()->get('ay')}}">{{request()->get('ay')}}</option>
+                                            <option  @if(request()->get('ay')) selected @endif   value="{{request()->get('ay')}}">{{request()->get('ay')}}</option>
                                         @endif
-                                        @foreach($aylar as $ay)
-                                            @if(request()->get('ay')!=$ay->ay)
-                                                <option    value="{{$ay->ay}}">{{$ay->ay}}</option>
-                                            @endif
-                                        @endforeach
+                                        @for($ay=1;$ay<=12;$ay++)
+                                            <option value="{{$ay}}">{{$ay}}</option>
+                                        @endfor
                                     </select>
                                 </div>
                                 <div class="col-auto">
                                     <select class="form-control mb-2" name="il" aria-label="Default select example" >
                                         <option value="" selected>İl seçin  </option>
-                                        @if(request()->get('il') !=0)
-                                        <option  @if(request()->get('il')) selected @endif   value="{{request()->get('il')}}">{{request()->get('il')}}</option>
+                                        @if(request()->get('ay') !=0)
+                                            <option  @if(request()->get('il')) selected @endif   value="{{request()->get('il')}}">{{request()->get('il')}}</option>
                                         @endif
-                                        @foreach($iller as $il)
-                                            @if(request()->get('il')!=$il->il)
-                                                <option    value="{{$il->il}}">{{$il->il}}</option>
-                                            @endif
-                                        @endforeach
+                                        @for($il=2021;$il<=2023;$il++)
+                                            <option value="{{$il}}">{{$il}}</option>
+                                        @endfor
 
                                     </select>
                                 </div>

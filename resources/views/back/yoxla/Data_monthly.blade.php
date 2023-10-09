@@ -39,11 +39,16 @@
                                         @if(request()->get('ay') !=0)
                                         <option  @if(request()->get('ay')) selected @endif   value="{{request()->get('ay')}}">{{request()->get('ay')}}</option>
                                         @endif
-                                        @foreach($aylar as $ay)
+
+                                        @for($ay=1;$ay<=12;$ay++)
+
+                                            <option value="{{$ay}}">{{$ay}}</option>
+                                        @endfor
+{{--                                        @foreach($aylar as $ay)
                                             @if(request()->get('ay')!=$ay->ay)
                                                 <option    value="{{$ay->ay}}">{{$ay->ay}}</option>
                                             @endif
-                                        @endforeach
+                                        @endforeach--}}
                                     </select>
                                 </div>
                                 <div class="col-auto">
@@ -52,11 +57,15 @@
                                         @if(request()->get('ay') !=0)
                                         <option  @if(request()->get('il')) selected @endif   value="{{request()->get('il')}}">{{request()->get('il')}}</option>
                                         @endif
-                                        @foreach($iller as $il)
+                                        @for($il=2021;$il<=2023;$il++)
+
+                                            <option value="{{$il}}">{{$il}}</option>
+                                        @endfor
+{{--                                        @foreach($iller as $il)
                                             @if(request()->get('il')!=$il->il)
                                                 <option    value="{{$il->il}}">{{$il->il}}</option>
                                             @endif
-                                        @endforeach
+                                        @endforeach--}}
 
                                     </select>
                                 </div>

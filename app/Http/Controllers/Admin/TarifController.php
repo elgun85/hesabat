@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Flkart;
 use App\Models\mhmhes;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\tarif;
 use App\Models\esas;
@@ -36,6 +38,204 @@ class TarifController extends Controller
 
 
 
+// *******************      aciqlama basla *****************************************************
+public function aciqlama(Request $request)
+{
+    ini_set('max_execution_time', 180);
+
+
+    $il = $request->il;
+    $ay = $request->ay;
+    $aylar=DB::table('flkart8 as B')
+        -> select('ay', DB::raw('count(*) as total'))
+        ->groupBy('ay')
+        ->get();
+
+    $iller=DB::table('flkart8 as B')
+        -> select('il', DB::raw('count(*) as total'))
+        ->groupBy('il')
+        ->get();
+
+
+
+
+
+
+
+    $E=DB::table('flkart_x8 as E')
+        ->join('flkart8 as A',
+            function ($join) {
+                $join->on('E.notel', '=', 'A.notel')->on('E.ay', '=', 'A.ay')->on('E.il', '=', 'A.il');
+            })
+        ->leftJoin('edvyoxes as L',
+            function ($join){
+                $join->on('A.kodqurum', '=', 'L.kodqurum')->on('A.ay', '=', 'L.ay')->on('A.il', '=', 'L.il');
+            }
+        )
+
+        ->leftJoin('lstarif_2021 as T',
+            function ($join){
+                $join->on('E.kodtarif', '=', 'T.kodtarif');
+            }
+        )
+
+        ->select('A.kodqurum','A.abonent','A.abonent2','E.kodtarif','E.summa','L.kateqor','T.adtarif','A.ay','A.il');
+
+    $E1=DB::table(DB::raw("({$E->toSql()}) as E"));
+
+   // return$T1=$E1->take(50)->get();
+
+    $T=DB::table('flkart8 as A')
+        ->leftJoin('edvyoxes as L',
+            function ($join){
+                $join->on('A.kodqurum', '=', 'L.kodqurum')->on('A.ay', '=', 'L.ay')->on('A.il', '=', 'L.il');
+            }
+        )
+
+        ->leftJoin('lstarif_2021 as T',
+            function ($join){
+                $join->on('A.kodtarif', '=', 'T.kodtarif');
+            }
+        )
+        ->select('A.kodqurum','abonent','abonent2','A.kodtarif','summa','L.kateqor','adtarif','A.ay','A.il')->
+        unionAll($E1);
+
+    $T1=DB::table(DB::raw("({$T->toSql()}) as T1"));
+
+   // return$T1=$T1->take(50)->get();
+
+    $T1=$T1->select('T1.*',
+        $T1->raw('
+   /*     CASE
+    		WHEN T1.abonent IN (1, 8) THEN "MENZIL"
+    		ELSE "IDERE"
+    		END AS "categoriya",*/
+
+	    CASE
+ 		   	WHEN T1.kodtarif IN (707,708,721,723)                                         THEN "1.1 GPON"
+ 		    WHEN T1.kodtarif IN (1,2,7,10,21,111,349)                                            THEN "1.2 Mis"
+
+
+
+    		WHEN T1.kodtarif IN (324,325,326,328,329)                                                 THEN "4.1.1 Ethernet"
+    		WHEN T1.kodtarif IN (543,546)                                                     THEN "4.1.2 ISP-lərdən"
+    		WHEN T1.kodtarif IN (39,46,48,51,53,54,58,59,60,321)                                  THEN "4.1.3 Rəqəmsal kanallar"
+
+            WHEN T1.kodtarif IN (410,411)                                                         THEN "4.2.1 ATS-lərdə qur.avad."
+
+
+
+    		WHEN T1.kodtarif IN (368,369)                                                     THEN "4.3.1 Fiber-optik lifdən istifadə"
+    		WHEN T1.kodtarif IN (391,392,396,397,398,399,407)                                     THEN "4.3.2 Kabel kan.icare"
+    		WHEN T1.kodtarif IN (929,924)                                                         THEN "4.3.3 KTX"
+    		WHEN T1.kodtarif IN (31,32,93,94,96,97)                                           THEN "4.3.4 BRX-dən ist.haqqı"
+
+    		WHEN T1.kodtarif IN (272,273,274,275,276,277,278,279,281,282,283,285,286,293,295) THEN "5.1.2 Servis haqqı"
+    		WHEN T1.kodtarif IN (4,6,36,49,61,235,907,920,925,926,928)                          THEN "5.1.5 Mini ATS,3 rəqəmli pre.,NGN və s "
+    		WHEN T1.kodtarif IN (8)                                                           THEN "5.1.6 Taksafon  dan."
+    		WHEN T1.kodtarif IN (289)                                                         THEN "5.1.7 Texniki xidmət"
+
+    		WHEN T1.kodtarif IN (927,930,931)                                                 THEN "6.2 Elektrik enerjisi"
+
+    		ELSE "basqa"
+   		END AS "xidmetin_novu"
+'));
+    $T2=DB::table(DB::raw("({$T1->toSql()}) as T2"));
+
+   // return$T1=$T2->take(50)->get();
+    $gelirler=$T2
+        ->select('T2.xidmetin_novu','T2.kodtarif','T2.adtarif','summa',
+            DB::raw('COALESCE( T2.xidmetin_novu," ") as xidmetin_novu'),
+            $T2->raw('
+   		CASE
+   		WHEN T2.xidmetin_novu = "1.1 GPON"
+   		  or T2.xidmetin_novu = "1.2 Mis"
+   		    THEN    "1.0 Telefon xidmətləri"
+
+   		WHEN T2.xidmetin_novu = "4.1.1 Ethernet"
+   		  or T2.xidmetin_novu = "4.1.2 ISP-lərdən"
+   		  or T2.xidmetin_novu = "4.1.3 Rəqəmsal kanallar"
+   		    THEN    "4.1 İcarə haqqı (Portların  icarəsi)"
+
+   		WHEN T2.xidmetin_novu = "4.2.1 ATS-lərdə qur.avad."
+   		    THEN    "4.2 İcarə haqqı (Avadanlıqların icarəsi)"
+
+
+   		WHEN T2.xidmetin_novu = "4.3.1 Fiber-optik lifdən istifadə"
+   		  or T2.xidmetin_novu = "4.3.2 Kabel kan.icare"
+   		  or T2.xidmetin_novu = "4.3.3 KTX"
+   		  or T2.xidmetin_novu = "4.3.4 BRX-dən ist.haqqı"
+   		    THEN    "4.3 İcarə haqqı (Kabellərin  icarəsi)"
+
+   		WHEN T2.xidmetin_novu = "5.1.2 Servis haqqı"
+   		  or T2.xidmetin_novu = "5.1.5 Mini ATS,3 rəqəmli pre.,NGN və s "
+   		  or T2.xidmetin_novu = "5.1.6 Taksafon  dan."
+   		  or T2.xidmetin_novu = "5.1.7 Texniki xidmət"
+   		    THEN    "5. Servis (ƏDX)"
+
+   		    WHEN T2.xidmetin_novu = "6.2 Elektrik enerjisi"
+   		    THEN    "6. Digər"
+
+
+   	 		ELSE "Sair xidmət başlıq"
+   		END AS "Başlıq",
+
+/*    SUM( CASE WHEN T2.categoriya = "MENZIL" THEN 1 ELSE 0 END ) as menzil_say,
+    SUM( CASE WHEN T2.categoriya = "MENZIL" THEN T2.summa ELSE 0 END) as menzil_summa,
+
+    SUM( CASE WHEN T2.categoriya = "IDERE" THEN 1 ELSE 0 END ) as idere_say,
+    SUM( CASE WHEN T2.categoriya = "IDERE" AND T2.kateqor IN (21,31,71,23,33,73) THEN T2.summa ELSE 0 END) as idere_edv,
+    SUM( CASE WHEN T2.categoriya = "IDERE" THEN T2.summa ELSE 0 END) as idere_summa,
+
+    COUNT(*) as cemi_say,*/
+
+    /*SUM( CASE WHEN T2.xidmetin_novu = "5.1.2 Servis haqqı" THEN T2.summa ELSE 0 END) as Servis_haqqı_summa,*/
+    SUM(T2.summa) as cemi_hesab
+
+     '));
+  //  return$T1=$gelirler->take(50)->get();
+
+
+   $gelirler=$gelirler
+        ->where('ay',$ay)
+        ->where('il',$il)
+        ->where('xidmetin_novu', '!=', 'basqa')
+        ->groupByRaw('kodtarif')
+       // ->groupBy(DB::raw('xidmetin_novu WITH ROLLUP'))
+        ->orderBy('xidmetin_novu','asc')
+        ->take(150)
+        ->get()
+      ->groupBy(function ($data)
+      {
+          return $data->xidmetin_novu;
+
+
+      });
+
+
+
+/*    $gelirler=$gelirler
+        ->where('ay',$ay)
+        ->where('il',$il)
+        ->where('xidmetin_novu', '!=', 'basqa')
+        ->groupBy('kodtarif')
+      // ->groupBy('xidmetin_novu')
+      //  ->groupBy(DB::raw('T2.xidmetin_novu WITH ROLLUP'))
+       ->orderBy('xidmetin_novu','ASC')
+        ->take(150)
+        ->get()
+      ->groupBy(function ($data)
+      {
+          return $data->xidmetin_novu;
+
+
+      })
+     ;*/
+
+
+    return view('back.yoxla.aciqlama', compact('gelirler','aylar','iller'));
+}
+// *******************      aciqlama son *****************************************************
 // *******************      Data_monthly basla *****************************************************
 public function Data_monthly(Request $request)
 {
@@ -44,7 +244,7 @@ public function Data_monthly(Request $request)
 
     $il = $request->il;
     $ay = $request->ay;
-    $aylar=DB::table('bank_2021 as B')
+/*    $aylar=DB::table('bank_2021 as B')
         -> select('ay', DB::raw('count(*) as total'))
         ->groupBy('ay')
         ->get();
@@ -52,14 +252,15 @@ public function Data_monthly(Request $request)
     $iller=DB::table('bank_2021 as B')
         -> select('il', DB::raw('count(*) as total'))
         ->groupBy('il')
-        ->get();
-
-    $E=DB::table('gelave_2021 as E')
-        ->join('gesas_2021 as A',
+        ->get();*/
+if ($il)
+{
+    $E=DB::table('gelave_'.$il.' as E')
+        ->join('gesas_'.$il.' as A',
             function ($join) {
                 $join->on('E.notel', '=', 'A.notel')->on('E.ay', '=', 'A.ay')->on('E.il', '=', 'A.il');
             })
-        ->leftJoin('edvyox_2021 as L',
+        ->leftJoin('edvyox_'.$il.' as L',
             function ($join){
                 $join->on('A.kodqurum', '=', 'L.kodqurum')->on('A.ay', '=', 'L.ay')->on('A.il', '=', 'L.il');
             }
@@ -69,8 +270,8 @@ public function Data_monthly(Request $request)
 
     $E1=DB::table(DB::raw("({$E->toSql()}) as E"));
 
-    $T=DB::table('gesas_2021 as A')
-        ->leftJoin('edvyox_2021 as L',
+    $T=DB::table('gesas_'.$il.' as A')
+        ->leftJoin('edvyox_'.$il.' as L',
             function ($join){
                 $join->on('A.kodqurum', '=', 'L.kodqurum')->on('A.ay', '=', 'L.ay')->on('A.il', '=', 'L.il');
             }
@@ -88,12 +289,14 @@ public function Data_monthly(Request $request)
     		END AS "categoriya",
 
 	    CASE
- 		   	WHEN T1.kodtarif IN (701,707,708,721,723)                                         THEN "1.1 GPON"
+	    	    /*701 tarif kodunu 01.06.2023-tarixden legv eledim   WHEN T1.kodtarif IN (707,708,721,723)    THEN "1.1 GPON"*/
+
+ 		   	WHEN T1.kodtarif IN (707,708,721,723)                                         THEN "1.1 GPON"
  		    WHEN T1.kodtarif IN (1,2,7,10,21,111,349)                                            THEN "1.2 Mis"
 
 
 
-    		WHEN T1.kodtarif IN (324,325,326)                                                 THEN "4.1.1 Ethernet"
+    		WHEN T1.kodtarif IN (324,325,326,328,329)                                                 THEN "4.1.1 Ethernet"
     		WHEN T1.kodtarif IN (543,546)                                                     THEN "4.1.2 ISP-lərdən"
     		WHEN T1.kodtarif IN (39,46,48,51,53,54,58,59,60,321)                                  THEN "4.1.3 Rəqəmsal kanallar"
 
@@ -102,7 +305,7 @@ public function Data_monthly(Request $request)
 
 
     		WHEN T1.kodtarif IN (368,369)                                                     THEN "4.3.1 Fiber-optik lifdən istifadə"
-    		WHEN T1.kodtarif IN (391,392,396,397,398,399)                                     THEN "4.3.2 Kabel kan.icare"
+    		WHEN T1.kodtarif IN (391,392,396,397,398,399,407)                                     THEN "4.3.2 Kabel kan.icare"
     		WHEN T1.kodtarif IN (929,924)                                                         THEN "4.3.3 KTX"
     		WHEN T1.kodtarif IN (31,32,93,94,96,97)                                           THEN "4.3.4 BRX-dən ist.haqqı"
 
@@ -180,8 +383,8 @@ public function Data_monthly(Request $request)
 
     //SEnedlesme
 
-    $Ts=DB::table('bank_2021 as Es')
-        ->leftJoin('edvyox_2021 as Ls',
+    $Ts=DB::table('bank_'.$il.' as Es')
+        ->leftJoin('edvyox_'.$il.' as Ls',
             function ($join){
                 $join->on('Es.kodqurum', '=', 'Ls.kodqurum')->on('Es.ay', '=', 'Ls.ay')->on('Es.il', '=', 'Ls.il');
             })
@@ -238,7 +441,11 @@ public function Data_monthly(Request $request)
 
 
 
-    return view('back.yoxla.Data_monthly', compact('gelirler','senedlesme','aylar','iller'));
+    return view('back.yoxla.Data_monthly', compact('gelirler','senedlesme'));
+}else{
+    return view('back.yoxla.Data_monthly');
+}
+
 
   //  return view('back.yoxla.Data_monthly');
 }
@@ -253,12 +460,12 @@ public function Data_monthly(Request $request)
 
         $il = $request->il;
         $ay = $request->ay;
-        $aylar=DB::table('bankes as B')
+        $aylar=DB::table('flkart8 as B')
             -> select('ay', DB::raw('count(*) as total'))
             ->groupBy('ay')
             ->get();
 
-        $iller=DB::table('bankes as B')
+        $iller=DB::table('flkart8 as B')
             -> select('il', DB::raw('count(*) as total'))
             ->groupBy('il')
             ->get();
@@ -297,12 +504,13 @@ public function Data_monthly(Request $request)
     		END AS "categoriya",
 
 	    CASE
- 		   	WHEN T1.kodtarif IN (701,707,708,721,723)                                         THEN "1.1 GPON"
+	    /*701 tarif kodunu 01.06.2023-tarixden legv eledim   WHEN T1.kodtarif IN (707,708,721,723)    THEN "1.1 GPON"*/
+ 		   	WHEN T1.kodtarif IN (707,708,721,723)                                         THEN "1.1 GPON"
  		    WHEN T1.kodtarif IN (1,2,7,10,21,111,349)                                            THEN "1.2 Mis"
 
 
 
-    		WHEN T1.kodtarif IN (324,325,326)                                                 THEN "4.1.1 Ethernet"
+    		WHEN T1.kodtarif IN (324,325,326,328,329)                                                 THEN "4.1.1 Ethernet"
     		WHEN T1.kodtarif IN (543,546)                                                     THEN "4.1.2 ISP-lərdən"
     		WHEN T1.kodtarif IN (39,46,48,51,53,54,58,59,60,321)                                  THEN "4.1.3 Rəqəmsal kanallar"
 
@@ -311,7 +519,7 @@ public function Data_monthly(Request $request)
 
 
     		WHEN T1.kodtarif IN (368,369)                                                     THEN "4.3.1 Fiber-optik lifdən istifadə"
-    		WHEN T1.kodtarif IN (391,392,396,397,398,399)                                     THEN "4.3.2 Kabel kan.icare"
+    		WHEN T1.kodtarif IN (391,392,396,397,398,399,407)                                     THEN "4.3.2 Kabel kan.icare"
     		WHEN T1.kodtarif IN (929,924)                                                         THEN "4.3.3 KTX"
     		WHEN T1.kodtarif IN (31,32,93,94,96,97)                                           THEN "4.3.4 BRX-dən ist.haqqı"
 
@@ -461,7 +669,7 @@ public function data_naz( Request $request)
 
     $il = $request->il;
     $ay = $request->ay;
-    $aylar=DB::table('bank_2021 as B')
+/*    $aylar=DB::table('bank_2021 as B')
         -> select('ay', DB::raw('count(*) as total'))
         ->groupBy('ay')
         ->get();
@@ -469,14 +677,15 @@ public function data_naz( Request $request)
     $iller=DB::table('bank_2021 as B')
         -> select('il', DB::raw('count(*) as total'))
         ->groupBy('il')
-        ->get();
-
-    $E=DB::table('gelave_2021 as E')
-        ->join('gesas_2021 as A',
+        ->get();*/
+if ($il or $ay)
+{
+    $E=DB::table('gelave_'.$il.' as E')
+        ->join('gesas_'.$il.' as A',
             function ($join) {
                 $join->on('E.notel', '=', 'A.notel')->on('E.ay', '=', 'A.ay')->on('E.il', '=', 'A.il');
             })
-        ->leftJoin('edvyox_2021 as L',
+        ->leftJoin('edvyox_'.$il.' as L',
             function ($join){
                 $join->on('A.kodqurum', '=', 'L.kodqurum')->on('A.ay', '=', 'L.ay')->on('A.il', '=', 'L.il');
             }
@@ -487,8 +696,8 @@ public function data_naz( Request $request)
     $E1=DB::table(DB::raw("({$E->toSql()}) as E"));
 
 
-    $T=DB::table('gesas_2021 as A')
-        ->leftJoin('edvyox_2021 as L',
+    $T=DB::table('gesas_'.$il.' as A')
+        ->leftJoin('edvyox_'.$il.' as L',
             function ($join){
                 $join->on('A.kodqurum', '=', 'L.kodqurum')->on('A.ay', '=', 'L.ay')->on('A.il', '=', 'L.il');
             }
@@ -512,11 +721,13 @@ public function data_naz( Request $request)
     		END AS "categoriya",
 
 	    CASE
- 		   	WHEN T1.abonent IN (2) AND T1.kodtarif IN (701,707,708,721,723) AND T1.kodqurum IN (98088,98013,3956,98083,98039,98139,98014)                                      THEN "1.1 GPON"
+	    	    /*701 tarif kodunu 01.06.2023-tarixden legv eledim   WHEN T1.kodtarif IN (707,708,721,723)    THEN "1.1 GPON"*/
+
+ 		   	WHEN T1.abonent IN (2) AND T1.kodtarif IN (707,708,721,723) AND T1.kodqurum IN (98088,98013,3956,98083,98039,98139,98014)                                      THEN "1.1 GPON"
  		    WHEN T1.abonent IN (2) AND T1.kodtarif IN (1,2,7,10,21,111,349) AND T1.kodqurum IN (98088,98013,3956,98083,98039,98139,98014)                                            THEN "1.2 Mis"
 
 
-    		WHEN T1.abonent IN (2) AND T1.kodtarif IN (324,325,326)  AND T1.kodqurum IN (98088,98013,3956,98083,98039,98139,98014)                                                THEN "4.1.1 Ethernet"
+    		WHEN T1.abonent IN (2) AND T1.kodtarif IN (324,325,326,328,329)  AND T1.kodqurum IN (98088,98013,3956,98083,98039,98139,98014)                                                THEN "4.1.1 Ethernet"
     		WHEN T1.abonent IN (1,2) AND  T1.hesab IN (98139)  AND T1.kodtarif IN (543,546)                                                  THEN "4.1.2 ISP-lərdən"
     		WHEN T1.kodtarif IN (39,46,48,51,53,54,58,59,60,321) AND T1.kodqurum IN (98088,98013,3956,98083,98039,98139,98014)                                  THEN "4.1.3 Rəqəmsal kanallar"
 
@@ -525,7 +736,7 @@ public function data_naz( Request $request)
 
 
     		WHEN T1.abonent IN (2) AND T1.kodtarif IN (368,369) AND T1.kodqurum IN (98088,98013,3956,98083,98039,98139,98014)                                                     THEN "4.3.1 Fiber-optik lifdən istifadə"
-    		WHEN T1.abonent IN (2) AND T1.kodtarif IN (391,392,396,397,398,399) AND T1.kodqurum IN (98088,98013,3956,98083,98039,98139,98014)                                     THEN "4.3.2 Kabel kan.icare"
+    		WHEN T1.abonent IN (2) AND T1.kodtarif IN (391,392,396,397,398,399,407) AND T1.kodqurum IN (98088,98013,3956,98083,98039,98139,98014)                                     THEN "4.3.2 Kabel kan.icare"
     		WHEN T1.abonent IN (2) AND T1.kodtarif IN (929,924) AND T1.kodqurum IN (98088,98013,3956,98083,98039,98139,98014)                                                         THEN "4.3.3 KTX"
     		WHEN T1.abonent IN (2) AND T1.kodtarif IN (31,32,93,94,96,97) AND T1.kodqurum IN (98088,98013,3956,98083,98039,98139,98014)                                           THEN "4.3.4 BRX-dən ist.haqqı"
 
@@ -620,8 +831,8 @@ public function data_naz( Request $request)
 
     //SEnedlesme
 
-    $Ts=DB::table('bank_2021 as Es')
-        ->leftJoin('edvyox_2021 as Ls',
+    $Ts=DB::table('bank_'.$il.' as Es')
+        ->leftJoin('edvyox_'.$il.' as Ls',
             function ($join){
                 $join->on('Es.kodqurum', '=', 'Ls.kodqurum')->on('Es.ay', '=', 'Ls.ay')->on('Es.il', '=', 'Ls.il');
             })
@@ -677,7 +888,10 @@ public function data_naz( Request $request)
         ->get();
 
 
-    return view('back.yoxla.data_naz', compact('gelirler','senedlesme','aylar','iller'));
+    return view('back.yoxla.data_naz', compact('gelirler','senedlesme'));
+}else{
+    return view('back.yoxla.data_naz');
+}
 }
 // *******************      data_naz son *****************************************************
 
@@ -687,48 +901,45 @@ public function data_naz( Request $request)
         $il = $request->il;
         $ay = $request->ay;
 
-        $aylar=DB::table('bank_2021 as B')
+/*        $aylar=DB::table('bank_'.$il.' as B')
             -> select('ay', DB::raw('count(*) as total'))
             ->groupBy('ay')
             ->get();
 
-        $iller=DB::table('bank_2021 as B')
+        $iller=DB::table('bank_'.$il.' as B')
             -> select('il', DB::raw('count(*) as total'))
             ->groupBy('il')
-            ->get();
+            ->get();*/
+
+if ($il) {
+
+    $T = DB::table('bank_' . $il . ' as B')
+        ->leftJoin('edvyox_' . $il . ' as L',
+            function ($join) {
+                $join->on('B.kodqurum', '=', 'L.kodqurum')->on('B.ay', '=', 'L.ay')->on('B.il', '=', 'L.il');
+            })
+        ->select('B.notel', 'B.kodqurum', 'B.kodxidmet', 'B.summa', 'L.adqurum', 'L.kateqor', 'L.kodmhm', 'B.ay', 'B.il');
+
+    $T1 = DB::table(DB::raw("({$T->toSql()}) as T1"));
 
 
-        $T=DB::table('bank_2021 as B')
-            ->leftJoin('edvyox_2021 as L',
-                function ($join){
-                    $join->on('B.kodqurum', '=', 'L.kodqurum')->on('B.ay', '=', 'L.ay')->on('B.il', '=', 'L.il');
-                })
-            ->select('B.notel','B.kodqurum','B.kodxidmet','B.summa','L.adqurum','L.kateqor','L.kodmhm','B.ay','B.il');
+    $data = $T1
+        ->where('ay', $ay)
+        ->where('il', $il)
+        ->whereIn('kateqor', array(21, 31, 71, 23, 33, 73))
+        // ->groupBy('kateqor','kodqurum','summa','kodxidmet')
 
-        $T1=DB::table(DB::raw("({$T->toSql()}) as T1"));
-
+        ->get();
 
 
+    $hes = $data->sum('summa');
+    return view('back.yoxla.senedlesme_edvsiz', compact('data','hes'));
 
-        $data=$T1
-            ->where('ay',$ay)
-            ->where('il',$il)
-            ->whereIn('kateqor',array(21,31,71,23,33,73))
-            // ->groupBy('kateqor','kodqurum','summa','kodxidmet')
-
-            ->get();
+}else{
 
 
-        $hes=$data->sum('summa');
-
-
-
-
-
-
-
-        return view('back.yoxla.senedlesme_edvsiz', compact('data','aylar','iller','hes'));
-
+        return view('back.yoxla.senedlesme_edvsiz');
+}
     }
 
 // *******************     sen_edv son  *****************************************************
@@ -767,11 +978,160 @@ public function data_naz( Request $request)
                     $join->on('A.kodqurum', '=', 'L.kodqurum')->on('A.ay', '=', 'L.ay')->on('A.il', '=', 'L.il');
                 }
             )
-            ->select('A.notel','A.kodqurum','A.abonent','A.abonent2','E.kodtarif','E.summa','L.adqurum','L.kateqor','L.kodmhm','A.ay','A.il');
+            ->select('A.notel','A.kodqurum','A.abonent','A.abonent2','E.kodtarif','E.hesab','E.summa','L.adqurum','L.kateqor','L.kodmhm','A.ay','A.il');
 
         $E1=DB::table(DB::raw("({$E->toSql()}) as E1"));
 
        // return$E1=$E1->take(150)->get();
+
+        $T=  DB::table('flkart8 as A')
+            ->leftJoin('lsqurums as L',
+                function ($join)
+                {
+                    $join->on('A.kodqurum', '=', 'L.kodqurum')->on('A.ay', '=', 'L.ay')->on('A.il', '=', 'L.il');
+                }
+            )
+            ->select('A.notel','A.kodqurum','abonent','abonent2','kodtarif','hesab','summa','L.adqurum','L.kateqor','L.kodmhm','A.ay','A.il')->
+            unionAll($E1);
+
+        $T1=DB::table(DB::raw("({$T->toSql()}) as T1"));
+
+       // return$T1=$T1->where('kodqurum',14885)->take(150)->get();
+
+        $T1=$T1->select('T1.notel','kodqurum','kodtarif','T1.kodmhm','T1.hesab','T1.adqurum','T1.kateqor','ay','il',
+            $T1->raw('
+
+    /*COUNT(*) as cemi_say,*/
+
+    SUM( CASE WHEN
+    T1.kodtarif IN (
+    	    /*701 tarif kodunu 01.06.2023-tarixden legv eledim   WHEN T1.kodtarif IN (707,708,721,723)    THEN "1.1 GPON"*/
+
+    1,2,7,21,111,707,708,721,723,272,273,274,275,276,277,278,279,281,282,283,285,286,293,295,4,6,8,36,49,61,235,349,907,925,926,928,
+    289,410,924,927,930,411,31,32,93,94,96,97,324,325,326,328,329,330,331,929,39,46,48,51,53,54,58,59,60,391,392,396,397,398,407,399,368,369,
+    10,321,931
+    ) THEN T1.summa ELSE 0 END) as hesablama,
+
+        SUM( CASE WHEN
+    T1.kodtarif IN (
+    543,546,920
+    ) THEN T1.summa ELSE 0 END) as prov_hes,
+
+    SUM(T1.summa) as cemi_hesablama
+')
+        );
+
+
+        if ($request->kat==1 or $request->kat==2)
+        {
+            $data=$T1
+                ->where('ay',$ay)
+                ->where('il',$il)
+                ->where('T1.abonent',$kat)
+                ->whereNotIn('T1.summa',[0])
+                ->whereIn('T1.kodtarif',array(
+                    1,2,7,21,111,707,708,721,723,272,273,274,275,276,277,278,279,281,282,283,285,286,293,295,4,6,8,36,49,61,235,349,907,925,926,928,
+                    289,410,924,927,930,411,31,32,93,94,96,97,324,325,326,328,329,330,331,929,39,46,48,51,53,54,58,59,60,391,392,396,397,398,407,399,368,369,
+                    10,321,931,
+                    543,546,920
+                ))
+                ->groupBy(DB::raw('T1.notel WITH ROLLUP'))
+                //  ->groupBy('T1.hesab')
+                ->get();
+            return view('back.yoxla.hes_siyahi', compact('data','aylar','iller'));
+
+        }if ($request->kat==3)
+    {
+        $data=$T1
+            ->where('ay',$ay)
+            ->where('il',$il)
+            ->whereNotIn('T1.summa',[0])
+            ->whereIn('T1.kodtarif',array(
+                1,2,7,21,111,707,708,721,723,272,273,274,275,276,277,278,279,281,282,283,285,286,293,295,4,6,8,36,49,61,235,349,907,925,926,928,
+                289,410,924,927,930,411,31,32,93,94,96,97,324,325,326,328,329,330,331,929,39,46,48,51,53,54,58,59,60,391,392,396,397,398,407,399,368,369,
+                10,321,931,
+                543,546,920
+            ))
+            ->groupBy(DB::raw('T1.notel WITH ROLLUP'))
+            //  ->groupBy('T1.hesab')
+            ->get();
+        return view('back.yoxla.hes_siyahi', compact('data','aylar','iller'));
+    }
+        if ($request->kat==4)
+    {
+        $data=$T1
+            ->where('ay',$ay)
+            ->where('il',$il)
+            ->where('T1.abonent',2)
+            ->whereNotIn('T1.summa',[0])
+            ->whereIn('T1.kodtarif',array(
+                1,2,7,21,111,707,708,721,723,272,273,274,275,276,277,278,279,281,282,283,285,286,293,295,4,6,8,36,49,61,235,349,907,925,926,928,
+                289,410,924,927,930,411,31,32,93,94,96,97,324,325,326,328,329,330,331,929,39,46,48,51,53,54,58,59,60,391,392,396,397,398,407,399,368,369,
+                10,321,931,
+                543,546,920
+            ))
+            ->groupBy(DB::raw('T1.kodqurum WITH ROLLUP'))
+            // ->groupBy('T1.hesab')
+            ->get();
+        return view('back.yoxla.hes_siyahi', compact('data','aylar','iller'));
+    }
+        if ($request->kat==5)
+        {
+            $data=$T1
+                ->where('ay',$ay)
+                ->where('il',$il)
+               // ->where('T1.abonent',2)
+                ->whereNotIn('T1.summa',[0])
+                ->whereIn('T1.kodtarif',array(
+                    543,546,920
+                ))
+                ->groupBy(DB::raw('T1.hesab WITH ROLLUP'))
+                // ->groupBy('T1.hesab')
+                ->get();
+            return view('back.yoxla.hes_siyahi', compact('data','aylar','iller'));
+        }
+
+
+
+
+
+
+        return view('back.yoxla.hes_siyahi', compact('aylar','iller'));
+
+
+    }
+// *******************     hes_siyahi son  *****************************************************
+// *******************     hes_yoxla5 start  *****************************************************
+    public function hes_yoxla5(Request $request)
+    {
+        ini_set('max_execution_time', 180);
+
+        $kat = $request->kat;
+        $il = $request->il;
+        $ay = $request->ay;
+        $aylar=DB::table('flkart8 as B')
+            -> select('ay', DB::raw('count(*) as total'))
+            ->groupBy('ay')
+            ->get();
+
+        $iller=DB::table('flkart_x8 as B')
+            -> select('il', DB::raw('count(*) as total'))
+            ->groupBy('il')
+            ->get();
+
+        $E=DB::table('flkart_x8 as E')
+            ->join('flkart8  as A',
+                function ($join) {
+                    $join->on('E.notel', '=', 'A.notel')->on('E.ay', '=', 'A.ay')->on('E.il', '=', 'A.il');
+                })
+            ->leftJoin('lsqurums as L',
+                function ($join){
+                    $join->on('A.kodqurum', '=', 'L.kodqurum')->on('A.ay', '=', 'L.ay')->on('A.il', '=', 'L.il');
+                }
+            )
+            ->select('A.notel','A.kodqurum','A.abonent','A.abonent2','E.kodtarif','E.summa','L.adqurum','L.kateqor','L.kodmhm','A.ay','A.il');
+
+        $E1=DB::table(DB::raw("({$E->toSql()}) as E1"));
 
         $T=  DB::table('flkart8 as A')
             ->leftJoin('lsqurums as L',
@@ -785,43 +1145,73 @@ public function data_naz( Request $request)
 
         $T1=DB::table(DB::raw("({$T->toSql()}) as T1"));
 
-  //       return$T1=$T1->take(150)->get();
-
-        $T1=$T1->select('T1.notel','kodqurum','T1.kodmhm','T1.adqurum','T1.kateqor','ay','il',
+        $T1=$T1->select('T1.notel','kodqurum','T1.kodmhm','T1.summa','T1.adqurum','T1.kateqor','ay','il',
             $T1->raw('
-
-    /*COUNT(*) as cemi_say,*/
     SUM(T1.summa) as cemi_hesablama
 ')
         );
-
-
 
         $data=$T1
             ->where('ay',$ay)
             ->where('il',$il)
             ->where('T1.abonent',$kat)
             ->whereNotIn('T1.summa',[0])
+            //  ->where('notel',4374500)
 
-           // ->whereIn('T1.kateqor',array(21,31,71,23,33,73))
+            // ->whereIn('T1.kateqor',array(21,31,71,23,33,73))
             ->whereIn('T1.kodtarif',array(
-                1,2,7,21,111,701,707,708,721,723,272,273,274,275,276,277,278,279,281,282,283,285,286,293,295,4,6,8,36,49,61,235,349,907,925,926,928,
-                289,410,924,927,930,411,31,32,93,94,96,97,324,325,326,929,39,46,48,51,53,54,58,59,60,391,392,396,397,398,399,368,369
-
+                //111,235,543,546,920
+                1,2,7,21,707,708,721,723,272,273,274,275,276,277,278,279,281,282,283,285,286,293,295,4,6,8,36,49,61,349,907,925,926,928,
+                289,410,924,927,930,411,31,32,93,94,96,97,324,325,326,328,329,330,331,929,39,46,48,51,53,54,58,59,60,391,392,396,397,398,399,407,368,369
             ))
-            //  ->groupBy('T1.kodqurum')
             ->groupBy(DB::raw('T1.notel WITH ROLLUP'))
-     //       ->take(150)
+            // ->take(10)
+            ;
+
+
+        $lArray=$data
+           // ->take(10)
+            ->get()
+            ->keyBy('notel')
+            ->toArray()
+        ;
+
+
+        $R=mhmhes::
+        select(
+            'notel','kodqurum', 'abonent','summa',
+            DB::raw('SUM(summa) as cemi_hesablama'))
+            ->where('abonent',$kat)
+            ->groupBy(DB::raw('notel WITH ROLLUP'))   ;
+
+        $mArray=$R
+             ->get()
+            ->keyBy('notel')
+            ->toArray();
+        $m=$R
+            // ->take(500)
             ->get();
 
 
+        $lks_hesablama=$data->get();
+        $lks_toarray=$lArray;
+
+        $mhm_hesablama=$m;
+        $mhm_toarray=$mArray;
 
 
 
 
-        return view('back.yoxla.hes_siyahi', compact('data','aylar','iller'));
+
+
+
+
+
+        return view('back.yoxla.hes_yoxla5', compact('aylar','iller','lks_hesablama','mhm_hesablama','lks_toarray','mhm_toarray'));
     }
-// *******************     hes_siyahi son  *****************************************************
+
+// *******************     hes_yoxla2 son  *****************************************************
+
 // *******************     hes_yoxla start  *****************************************************
 public function hes_yoxla(Request $request)
 {
@@ -894,7 +1284,7 @@ public function hes_yoxla(Request $request)
         ->whereIn('T1.kodtarif',array(
             //111,235,543,546,920
             1,2,7,21,707,708,721,723,272,273,274,275,276,277,278,279,281,282,283,285,286,293,295,4,6,8,36,49,61,349,907,925,926,928,
-            289,410,924,927,930,411,31,32,93,94,96,97,324,325,326,929,39,46,48,51,53,54,58,59,60,391,392,396,397,398,399,368,369
+            289,410,924,927,930,411,31,32,93,94,96,97,324,325,326,328,329,330,331,929,39,46,48,51,53,54,58,59,60,391,392,396,397,398,399,407,368,369
         ))
         ->groupBy(DB::raw('T1.notel WITH ROLLUP'))
     // ->take(10)
@@ -1090,7 +1480,6 @@ public function kod_tarif(Request $request)
 
     $tarifler=DB::table('lstarif_2021 as T')
         -> select('kodtarif','adtarif', DB::raw('count(*) as total'))
-       // ->whereIn('kodtarif',array(324,325,326))
         ->groupBy('kodtarif')
         ->get();
 
@@ -1205,17 +1594,17 @@ if ($kodtarif!=0)
 
     	CASE
  		   	WHEN T1.tarif IN (1,2,7,21,111)                        THEN "Mis kabel"
- 		   	WHEN T1.tarif IN (701,707,708,721,723)                        THEN "Gpon telefon"
+ 		   	WHEN T1.tarif IN (707,708,721,723)                        THEN "Gpon telefon"
  		   	WHEN T1.tarif IN (272,273,274,275,276,277,278,279,281,282,283,285,286,293,295)                        THEN "Servis telefon"
  		   	WHEN T1.tarif IN (6,8,36,49,61,235,289,349,907,925,926,928)                                          THEN "Digər_say"
 
  		   	WHEN T1.tarif IN (410,924,927,930,411)                        THEN "ATS-lərdə qur.avad"
  		   	WHEN T1.tarif IN (31,32,93,94,96,97)                        THEN "BRX-dən ist.haqqı"
- 		   	WHEN T1.tarif IN (324,325,326)                        THEN "Ethernet"
+ 		   	WHEN T1.tarif IN (324,325,326,328,329)                        THEN "Ethernet"
  		   	WHEN T1.tarif IN (543,920)                        THEN "Digər prov"
  		   	WHEN T1.tarif IN (929)                        THEN "KTX"
  		   	WHEN T1.tarif IN (39,46,48,51,53,54,58,59,60)                        THEN "Rəqəmsal kanal"
- 		   	WHEN T1.tarif IN (391,392,396,397,398,399)                        THEN "Kabel kan.icare"
+ 		   	WHEN T1.tarif IN (391,392,396,397,398,399,407)                        THEN "Kabel kan.icare"
  		   	WHEN T1.tarif IN (368,369)                        THEN "FO lif"
 
  		   	WHEN T1.tarif IN (437,444,447,806,812,813,814,851,852,877)                        THEN "Adsl"
@@ -1264,7 +1653,7 @@ if ($kodtarif!=0)
 
      '));
 
-        $data= $data
+    return    $data= $data
             //          ->orderBy('Qrup','DESC')
 
             ->groupBy('Qrup')
@@ -1417,7 +1806,7 @@ if ($kodtarif!=0)
     		END AS "categoriya",
 
 	    CASE
- 		   	WHEN T1.kodtarif IN (701,707,708,721,723)                                         THEN "GPON"
+ 		   	WHEN T1.kodtarif IN (707,708,721,723)                                         THEN "GPON"
  		    WHEN T1.kodtarif IN (1,2,7,21,111)                                                THEN "Mis"
     		WHEN T1.kodtarif IN (272,273,274,275,276,277,278,279,281,282,283,285,286,293,295) THEN "Servis"
     		WHEN T1.kodtarif IN (4,6,8,36,49,61,235,349,907,920,925,926,928)                THEN "Sair xidmət "
@@ -1425,11 +1814,11 @@ if ($kodtarif!=0)
 
     		WHEN T1.kodtarif IN (410,924,927,930,411)                                         THEN "ATS-lərdə qur.avad."
     		WHEN T1.kodtarif IN (31,32,93,94,96,97)                                           THEN "BRX-dən ist.haqqı"
-    		WHEN T1.kodtarif IN (324,325,326)                                                 THEN "Ethernet"
+    		WHEN T1.kodtarif IN (324,325,326,328,329)                                                 THEN "Ethernet"
     		WHEN T1.kodtarif IN (543)                                                         THEN "Digər prov"
     		WHEN T1.kodtarif IN (929)                                                         THEN "KTX"
     		WHEN T1.kodtarif IN (39,46,48,51,53,54,58,59,60)                                  THEN "Rəqəmsal kanal"
-    		WHEN T1.kodtarif IN (391,392,396,397,398,399)                                     THEN "Kabel kan.icare"
+    		WHEN T1.kodtarif IN (391,392,396,397,398,399,407)                                     THEN "Kabel kan.icare"
     		WHEN T1.kodtarif IN (368,369)                                                     THEN "FO lif"
 
     		ELSE "basqa"
@@ -1623,12 +2012,12 @@ public function siyahi(Request $request)
 
     $il = $request->il;
     $ay = $request->ay;
-    $aylar=DB::table('gesas_2021 as B')
+    $aylar=DB::table('gesas_2023 as B')
         -> select('ay', DB::raw('count(*) as total'))
         ->groupBy('ay')
         ->get();
 
-    $iller=DB::table('gesas_2021 as B')
+    $iller=DB::table('gesas_2023 as B')
         -> select('il', DB::raw('count(*) as total'))
         ->groupBy('il')
         ->get();
@@ -1637,12 +2026,12 @@ public function siyahi(Request $request)
 
 
 
-    $E=DB::table('gelave_2021 as E')
-        ->join('gesas_2021  as A',
+    $E=DB::table('gelave_2023 as E')
+        ->join('gesas_2023  as A',
             function ($join) {
                 $join->on('E.notel', '=', 'A.notel')->on('E.ay', '=', 'A.ay')->on('E.il', '=', 'A.il');
             })
-        ->leftJoin('edvyox_2021 as L',
+        ->leftJoin('edvyox_2023 as L',
             function ($join){
                 $join->on('A.kodqurum', '=', 'L.kodqurum')->on('A.ay', '=', 'L.ay')->on('A.il', '=', 'L.il');
             }
@@ -1652,8 +2041,8 @@ public function siyahi(Request $request)
         $E1=DB::table(DB::raw("({$E->toSql()}) as E1"));
 
 
-    $T=  DB::table('gesas_2021 as A')
-        ->leftJoin('edvyox_2021 as L',
+    $T=  DB::table('gesas_2023 as A')
+        ->leftJoin('edvyox_2023 as L',
             function ($join)
             {
                 $join->on('A.kodqurum', '=', 'L.kodqurum')->on('A.ay', '=', 'L.ay')->on('A.il', '=', 'L.il');
@@ -1681,8 +2070,8 @@ public function siyahi(Request $request)
 
     ->whereIn('T1.kateqor',array(21,31,71,23,33,73))
     ->whereIn('T1.kodtarif',array(
-        1,2,7,21,111,701,707,708,721,723,272,273,274,275,276,277,278,279,281,282,283,285,286,293,295,4,6,8,36,49,61,235,349,907,925,926,928,
-        289,410,924,927,930,411,31,32,93,94,96,97,324,325,326,929,39,46,48,51,53,54,58,59,60,391,392,396,397,398,399,368,369
+        1,2,7,21,111,707,708,721,723,272,273,274,275,276,277,278,279,281,282,283,285,286,293,295,4,6,8,36,49,61,235,349,907,925,926,928,
+        289,410,924,927,930,411,31,32,93,94,96,97,324,325,326,328,329,330,331,929,39,46,48,51,53,54,58,59,60,391,392,396,397,398,399,407,368,369
 
     ))
   //  ->groupBy('T1.kodqurum')

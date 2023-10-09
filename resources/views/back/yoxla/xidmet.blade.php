@@ -55,14 +55,7 @@
                         <div class="table-responsive ">
                             <table id="htmltable" class="table table-bordered table-hover">
                                 <thead class="thead-light">
-{{--                                <tr >--}}
-{{--                                    <td class="text-left"> {{request()->get('ay')}}-{{ request()->get('il')}}</td>--}}
-{{--                                    <td colspan="4" class="text-center" >Mənzil</td>--}}
-{{--                                    <td colspan="4" class="text-center">Qurum</td>--}}
-{{--                                    <td colspan="4" class="text-center">Cəmi</td>--}}
 
-
-{{--                                </tr>--}}
                                 <tr>
                                     <th>kod</th>
                                     <th>tarif</th>
@@ -72,9 +65,6 @@
                                     <th>qur_hes</th>
                                     <th>cem_say</th>
                                     <th>cem_hes</th>
-{{--                                    <th>diger</th>--}}
-
-
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -121,7 +111,7 @@
                                         <td>{{$tar->idere_summa}}</td>
                                         <td>{{$tar->cemi_say}}</td>
                                         <td>{{$tar->cemi_hesab}}</td>
-{{--                                        <td>{{$tar->Diger_say}}</td>--}}
+{{--
 
 
 
