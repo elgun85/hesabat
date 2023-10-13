@@ -85,6 +85,8 @@ Route::group(['middleware'=>['auth','authadmin'],'prefix'=>'admin'],function ()
 
 
         Route::get('ourserv',[OurservController::class,'index'])->name('ourserv');
+        Route::get('import',[OurservController::class,'import_index'])->name('import');
+        Route::post('import',[OurservController::class,'import'])->name('import.post');
 
         Route::get('hes_yoxla5',[TarifController::class,'hes_yoxla5'])->name('hes_yoxla5');
 

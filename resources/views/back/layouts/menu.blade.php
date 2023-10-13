@@ -402,6 +402,15 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="{{route('import')}}" class="nav-link">
+                        <i class="nav-icon fas fa-file-import " style="color: red"></i>
+                        <p>
+                            Import
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
