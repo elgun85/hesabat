@@ -254,6 +254,7 @@
      ) menu-open @endif
 
                  ">
+
                     <a href="#" class="nav-link
 @if (
     Request::segment(2)=='kod_tarif' or
@@ -345,6 +346,71 @@
                     </ul>
                 </li>
 
+
+
+                <li class="nav-item
+                       @if (
+                     Request::segment(2)=='data_montly_analiz' or
+                     Request::segment(2)=='data_montly_ourserv' or
+                     Request::segment(2)=='edv_sened_ourserv' or
+                     Request::segment(2)=='edv_siyahi_ourserv' or
+                     Request::segment(2)=='data_naz_ourserv'
+                         ) menu-open
+                     @endif
+                     ">
+                    <a href="#" class="nav-link
+                      @if (
+                     Request::segment(2)=='data_montly_analiz' or
+                     Request::segment(2)=='data_montly_ourserv' or
+                     Request::segment(2)=='edv_sened_ourserv' or
+                     Request::segment(2)=='edv_siyahi_ourserv' or
+                     Request::segment(2)=='data_naz_ourserv'
+                         ) active
+                     @endif"
+                    >
+                        <i class="nav-icon fas fa-chart-pie"></i>
+
+                        <p>
+                            Ourserv
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item" >
+                            <a href="{{route('data_montly_analiz')}}" class="nav-link @if ( Request::segment(2)=='data_montly_analiz' ) active @endif ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Data montly analiz</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" >
+                            <a href="{{route('data_montly_ourserv')}}" class="nav-link @if ( Request::segment(2)=='data_montly_ourserv' ) active @endif ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Data montly</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" >
+                            <a href="{{route('data_naz_ourserv')}}" class="nav-link @if ( Request::segment(2)=='data_naz_ourserv' ) active @endif ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Data nazirlik</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" >
+                            <a href="{{route('edv_sened_ourserv')}}" class="nav-link @if ( Request::segment(2)=='edv_sened_ourserv' ) active @endif ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Ədv-siz sənədləşmələr</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" >
+                            <a href="{{route('edv_siyahi_ourserv')}}" class="nav-link @if ( Request::segment(2)=='edv_siyahi_ourserv' ) active @endif ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Ədv-siz siyahi</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
@@ -358,6 +424,12 @@
                             <a href="{{route('saxeli')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>İstifadəçilər (saxeli)</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('vurma')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Vurma cedveli</p>
                             </a>
                         </li>
 

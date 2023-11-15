@@ -61,6 +61,7 @@ Route::group(['middleware'=>['auth','authadmin'],'prefix'=>'admin'],function ()
         Route::get('test1',[TestController::class,'test1'])->name('test1');
         Route::get('api',[TestController::class,'api'])->name('api');
         Route::get('saxeli',[TestController::class,'saxeli'])->name('saxeli');
+        Route::get('vurma',[TestController::class,'vurma'])->name('vurma');
 
         Route::get('table',[ProductController::class,'table'])->name('table');
         Route::get('analiz',[TarifController::class,'analiz'])->name('analiz');
@@ -83,8 +84,13 @@ Route::group(['middleware'=>['auth','authadmin'],'prefix'=>'admin'],function ()
         Route::get('hes_yoxla',[TarifController::class,'hes_yoxla'])->name('hes_yoxla');
 
 
-
+                                            /*Ourserv*/
         Route::get('ourserv',[OurservController::class,'index'])->name('ourserv');
+        Route::get('data_montly_analiz',[OurservController::class,'data_montly_analiz'])->name('data_montly_analiz');
+        Route::get('data_montly_ourserv',[OurservController::class,'data_montly_ourserv'])->name('data_montly_ourserv');
+        Route::get('data_naz_ourserv',[OurservController::class,'data_naz_ourserv'])->name('data_naz_ourserv');
+        Route::get('edv_sened_ourserv',[OurservController::class,'edv_sened_ourserv'])->name('edv_sened_ourserv');
+        Route::get('edv_siyahi_ourserv',[OurservController::class,'edv_siyahi_ourserv'])->name('edv_siyahi_ourserv');
         Route::get('import',[OurservController::class,'import_index'])->name('import');
         Route::post('import',[OurservController::class,'import'])->name('import.post');
 

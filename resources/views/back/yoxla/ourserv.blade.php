@@ -59,74 +59,45 @@
                     </div>
                 </div>
 
-
                 <div class="card-body">
-{{--
-                    @if (request()->get('il') and request()->get('ay'))
---}}
-                        {{--                cedvel evvel --}}
-                        <table id="example1" class="table table-bordered table-striped ">
-                            <thead class="text-center text-bold">
-                            <tr >
-                                <td>Rabite xidmetleri</td>
-                                <td>Say</td>
-                                <td>ƏDV məbləğ</td>
-                                <td>Əsas məbləğ</td>
-                                <td>Məbləğ</td>
-                            </tr>
-
-                            </thead>
-                            <tbody>
-                            @foreach($data as $row)
-                                <tr>
-                                    <td>{{$row->xidmetin_novu}}
-
-                                        @if($row->xidmetin_novu===' ' and  $row->Başlıq === '1.0 Telefon xidmətləri'  )
-                                            <b>  {{$row->Başlıq}}  üzrə  </b>
-                                        @endif
-                                        @if($row->xidmetin_novu===' ' and  $row->Başlıq === '4.1 İcarə haqqı (Portların  icarəsi)')
-                                            <b>  {{$row->Başlıq}}  üzrə </b>
-                                        @endif
-                                        @if($row->xidmetin_novu===' ' and  $row->Başlıq === '4.2 İcarə haqqı (Avadanlıqların icarəsi)')
-                                            <b>  {{$row->Başlıq}}  üzrə </b>
-                                        @endif
-
-                                        @if($row->xidmetin_novu===' ' and  $row->Başlıq === '4.3 İcarə haqqı (Kabellərin  icarəsi)')
-                                            <b>  {{$row->Başlıq}}  üzrə </b>
-                                        @endif
-
-                                        @if($row->xidmetin_novu===' ' and  $row->Başlıq === '5. Servis (ƏDX)')
-                                            <b>  {{$row->Başlıq}}  üzrə </b>
-                                        @endif
-
-                                        @if($row->xidmetin_novu===' ' and  $row->Başlıq === '6. Digər')
-                                            <b>  {{$row->Başlıq}}  üzrə </b>
-                                        @endif
-
-
-                                        @if($row->xidmetin_novu===' ')
-                                            <b>  {{$row->xidmetin_novu}} Cəmi  </b>
-                                        @endif
-
-                                    </td>
-                                    <td>{{$row->cemi_say}}</td>
-                                    <td>*</td>
-                                    <td>*</td>
-                                    <td>{{$row->cemi_hesab}}</td>
-
-                                </tr>
+                        <div class="col-md-6  ">
+                            @foreach($data as $basliq =>$xidmet_novu)
+                                <ul class="list-unstyled    table-bordered ">
+                                    <li  class=" mt-3 ml-3"><b style="font-size: 16px;">{{$basliq }}</b>
+{{--                                    {{dd($xidmet_novu['1.2 Mis'][1][0]->cemi_hesab)}}--}}
+{{--                                        @if($xi===' ' and  $gelir->Başlıq === '1.0 Telefon xidmətləri'  )--}}
+{{--                                            <b>  {{$gelir->Başlıq}}  üzrə  </b>--}}
+{{--                                        @endif--}}
+{{--                                        {{   $xidmet_novu->cemi_hesab    }}--}}
+                                    </li>
+                                    <ul>
+                                        @foreach($xidmet_novu as $xidmet => $tar)
+                                            <li class="mt-3 ml-3">{{$xidmet}}  </li>
+                                            @foreach($tar as $key)
+                                                @foreach($key as $koftarif)
+                                                    <ul>
+                                                        <li class=" ml-3">
+                                                                <?php
+                                                                $bul = ['Ў','ў','Ё','ё','·','√','№','¤', 'Ї','ї', '°','∙','Є','є'];
+                                                                $dey=  ['Ə','ə','Ö','ö','I','ı','Ü','ü', 'Ş','ş', 'Ğ','ğ','Ç','ç'];
+                                                                ?>
+                                                            {{$koftarif->KODTARIF}}
+                                                            {{str_replace( $bul,$dey,$koftarif->adtarif)}}
+                                                            <span class="badge rounded-pill bg-light float-end">{{$koftarif->cemi_hesab}}</span>
+                                                        </li>
+                                                    </ul>
+                                                @endforeach
+                                            @endforeach
+                                        @endforeach
+                                    </ul>
+                                </ul>
                             @endforeach
+                        </div>
 
 
 
 
-                            </tbody>
-                            <tfoot >
-                            </tfoot>
-                        </table>
 
-                        {{--                cedvel son--}}
-                  {{--  @endif--}}
 
 
 

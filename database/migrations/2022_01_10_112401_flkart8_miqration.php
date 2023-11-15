@@ -20,7 +20,7 @@ class Flkart8Miqration extends Migration
             $table->integer('kodtarif')->nullable();
             $table->integer('abonent')->nullable();
             $table->integer('abonent2')->nullable();
-            $table->decimal('summa')->nullable();
+            $table->decimal('summa',10,2)->nullable();
             $table->integer('ay')->nullable();
             $table->integer('il')->nullable();
             $table->timestamps();

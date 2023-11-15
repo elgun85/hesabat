@@ -753,14 +753,6 @@ if ($il or $ay)
     $T2=DB::table(DB::raw("({$T1->toSql()}) as T2"));
 
 
-/*  return  $elg=$T2
-        ->where('ay',$ay)
-        ->where('il',$il)
-        ->whereIn('kodqurum',array(98088,98013,3956,98083,98039,98139,98014))
-       // ->Where('hesab',98139)
-        ->take(350)
-        ->get();*/
-
 
     $gelirler=$T2
         ->select('T2.xidmetin_novu',
@@ -814,15 +806,6 @@ if ($il or $ay)
     $gelirler=$gelirler
         ->where('ay',$ay)
         ->where('il',$il)
-      //  ->where('abonent',2)
-      //  ->whereIn('kodqurum',array(98088,98013,3956,98083,98039,98014))
-
-/*        ->orWhere(function($query)
-        {
-            $query
-                ->where('abonent', '>', 1)
-                ->where('hesab', 98139);
-        })*/
         ->where('xidmetin_novu', '!=', 'basqa')
         ->groupBy('Başlıq')
         ->groupBy(DB::raw('T2.xidmetin_novu WITH ROLLUP'))
@@ -889,7 +872,8 @@ if ($il or $ay)
 
 
     return view('back.yoxla.data_naz', compact('gelirler','senedlesme'));
-}else{
+}
+else{
     return view('back.yoxla.data_naz');
 }
 }

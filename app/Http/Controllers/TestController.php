@@ -30,6 +30,12 @@ use GuzzleHttp\Cookie\CookieJar;
 class TestController extends Controller
 {
 
+    public function vurma()
+    {
+
+
+return view('back.test.vurma');
+    }
 
     public function api()
     {

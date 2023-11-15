@@ -206,6 +206,7 @@
             }
         });
 
-    });</script>
+    });
+</script>
 </body>
 </html>
