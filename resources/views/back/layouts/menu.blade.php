@@ -249,7 +249,7 @@
     Request::segment(2)=='texXid'  or
     Request::segment(2)=='hes_yoxla'  or
     Request::segment(2)=='hes_yoxla5'  or
-    Request::segment(2)=='ourserv'  or
+/*    Request::segment(2)=='ourserv'  or*/
     Request::segment(2)=='texniki'
      ) menu-open @endif
 
@@ -264,7 +264,7 @@
     Request::segment(2)=='texXid'  or
     Request::segment(2)=='hes_yoxla'  or
     Request::segment(2)=='hes_yoxla5'  or
-    Request::segment(2)=='ourserv'  or
+/*    Request::segment(2)=='ourserv'  or*/
     Request::segment(2)=='texniki'
      ) active @endif
                         ">
@@ -328,12 +328,12 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
+{{--                        <li class="nav-item">
                             <a href="{{route('ourserv')}}" class="nav-link @if (Request::segment(2)=='ourserv') active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Our Serv</p>
                             </a>
-                        </li>
+                        </li>--}}
 
                         <li class="nav-item">
                             <a href="{{route('texniki')}}" class="nav-link @if (Request::segment(2)=='texniki') active @endif">
@@ -350,6 +350,8 @@
 
                 <li class="nav-item
                        @if (
+                     Request::segment(2)=='mus' or
+                     Request::segment(2)=='analyst' or
                      Request::segment(2)=='data_montly_analiz' or
                      Request::segment(2)=='data_montly_ourserv' or
                      Request::segment(2)=='edv_sened_ourserv' or
@@ -361,6 +363,8 @@
                     <a href="#" class="nav-link
                       @if (
                      Request::segment(2)=='data_montly_analiz' or
+                     Request::segment(2)=='mus' or
+                     Request::segment(2)=='analyst' or
                      Request::segment(2)=='data_montly_ourserv' or
                      Request::segment(2)=='edv_sened_ourserv' or
                      Request::segment(2)=='edv_siyahi_ourserv' or
@@ -377,6 +381,18 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item" >
+                            <a href="{{route('mus')}}" class="nav-link @if ( Request::segment(2)=='mus' ) active @endif ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Muhasibatliq</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" >
+                            <a href="{{route('analyst')}}" class="nav-link @if ( Request::segment(2)=='analyst' ) active @endif ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p> Yoxla </p>
+                            </a>
+                        </li>
+{{--                        <li class="nav-item" >
                             <a href="{{route('data_montly_analiz')}}" class="nav-link @if ( Request::segment(2)=='data_montly_analiz' ) active @endif ">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Data montly analiz</p>
@@ -406,6 +422,7 @@
                                 <p>Ədv-siz siyahi</p>
                             </a>
                         </li>
+                        --}}
                     </ul>
                 </li>
 

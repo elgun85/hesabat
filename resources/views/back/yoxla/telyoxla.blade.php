@@ -240,7 +240,6 @@
   </div>
 
         @section('select_all')
-
 {{--        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>--}}
         		<script language="javascript">
 
@@ -248,11 +247,6 @@
 				$('input:checkbox').not(this).prop('checked', this.checked);
 			});
 		</script>
-
-
-
-
-
     @endsection
 
 

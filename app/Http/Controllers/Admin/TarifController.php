@@ -36,8 +36,6 @@ class TarifController extends Controller
         return view('back.yoxla.tarif', compact('data'));
     }
 
-
-
 // *******************      aciqlama basla *****************************************************
 public function aciqlama(Request $request)
 {
@@ -2036,6 +2034,7 @@ public function siyahi(Request $request)
         unionAll($E1);
 
     $T1=DB::table(DB::raw("({$T->toSql()}) as T1"));
+   // return $T1->where('ay',10)->where('il',2023)->where('kodqurum',6702)->take(150)->get();
 
     $T1=$T1->select('T1.kodqurum','T1.kodmhm',
         $T1->raw('
@@ -2165,13 +2164,6 @@ public function siyahi(Request $request)
         $data = esas::leftJoin('elaves', 'esas.telefon', '=', 'elaves.telefon')
             ->select('esas.telefon', 'esas.hesab', 'esas.tarif', 'esas.abonent', 'esas.abonent2', 'elaves.tarifs');
 
-
-
-
-
-
-
-
         if ($esas) {
             $data = $data->where('tarif', $esas);
         }
@@ -2186,12 +2178,8 @@ public function siyahi(Request $request)
         }
 
         if ($abonent2 === '0') {
-
             $data = $data->where('abonent2', $abonent2);
-
         }
-
-
         if ($internet) {
             $data = $data->whereIn('tarifs', $internet);
         }

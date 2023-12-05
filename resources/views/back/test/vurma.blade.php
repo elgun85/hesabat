@@ -53,12 +53,12 @@
                             <td>
                              @php
 
-                                for ($i = 1; $i <= 136; $i++)
+                                for ($i = 1; $i <= 246; $i++)
                                 {
-                                 $a=rand(2,5);
+                                 $a=rand(2,9);
                                  $b=rand(1,10);
-                                                             // echo $a .' x ' . $b.' ='.'<br>';
-                                    echo $b .' x ' . $a.' ='.'<br>';
+                                                              echo $a .' x ' . $b.' ='.'<br>';
+                                   // echo $b .' x ' . $a.' ='.'<br>';
                                 }
 
 

@@ -1,5 +1,5 @@
 @extends('back.layouts.master')
-@section('title',request()->get('ay').' '.request()->get('il').' Ədv  Sənədləşmələr üzrə siyahı')
+@section('title',request()->get('ay').' '.request()->get('il').' Ədv-dən azad  abunəçilər üzrə siyahı')
 
 @section('content')
     <div class="content-wrapper">
@@ -30,7 +30,7 @@
             <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title"> <form action="{{route('edv_sened_ourserv')}}" method="get" name="formdan">
+                    <div class="card-title"> <form action="{{route('edv_siyahi_ourserv')}}" method="get" name="formdan">
                             @csrf
                             <div class="form-row align-items-center">
                                 <div class="col-auto">
@@ -81,90 +81,51 @@
 
 
                 <div class="card-body">
-
-
-
                     @if (request()->get('il') and request()->get('ay'))
-
                         {{--                cedvel evvel --}}
-
-
                         <table id="example1" class="table table-bordered table-striped ">
                             <thead class="text-center text-bold">
                             <tr >
                                 <td class="text-left"> {{request()->get('ay')}}-{{ request()->get('il')}}</td>
                                 <td colspan="6" class="text-center">Cəmi</td>
-
-
                             </tr>
                             <tr >
                                 <td class="text-left" >Ad</td>
                                 <td>MHM_hesab</td>
                                 <td>LKŞ_hesab</td>
-                                <td>Kod_ximət</td>
-                                <td>Kateqor</td>
-                                <td>Məbləğ</td>
+                                <td>Kat</td>
+                                <td>say</td>
+                                <td>hesablama</td>
                             </tr>
-
                             </thead>
                             <tbody>
                                 <?php
-                                $bul = ['?','Ў','ў','Ё','ё','·','√','№','¤', 'Ї','ї', '°','∙','Є','є'];
-                                $dey=  ['Ə','Ə','ə','Ö','ö','I','ı','Ü','ü', 'Ş','ş', 'Ğ','ğ','Ç','ç'];
+                                $bul = ['Ў','ў','Ё','ё','·','√','№','¤', 'Ї','ї', '°','∙','Є','є'];
+                                $dey=  ['Ə','ə','Ö','ö','I','ı','Ü','ü', 'Ş','ş', 'Ğ','ğ','Ç','ç'];
                                 ?>
-
-                            @foreach($data as $odenis)
+                            @foreach($data as $item)
                                 <tr class="text-center">
                                     <td class="text-left" >
-                                        {{str_replace( $bul,$dey,$odenis->adqurum)}}
+                                        {{str_replace( $bul,$dey,$item->ADQURUM)}}
                                         {{-- {{$odenis->adqurum}}--}}
                                     </td>
-                                    <td>{{$odenis->kodmhm}}</td>
-                                    <td>{{$odenis->kodqurum}}</td>
-                                    <td>{{$odenis->kodxidmet}}</td>
-                                    <td>{{$odenis->kateqor}}</td>
-                                    <td>{{$odenis->summa}}</td>
+                                    <td>{{$item->kodmhm}}</td>
+                                    <td>{{$item->kodqurum}}</td>
+                                    <td>{{$item->kateqor}}</td>
+                                    <td>{{$item->cemi_say}}</td>
+                                    <td>{{$item->cemi_hesablama}}</td>
                                 </tr>
-
-                                {{--                                @php
-                                                                    $i = $i + $odenis->summa;
-                                                                @endphp--}}
-
                             @endforeach
 
-                            <tr class="text-center">
-                                <td class="text-left" >Cəmi</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>{{$hes}}</td>
-                            </tr>
+
                             </tbody>
                             <tfoot >
-
-
-
-
                             </tfoot>
                         </table>
                         {{--                cedvel son--}}
-
-
-
                     @endif
-
-
-
                 </div>
-                {{--                    @php echo  $i;
-                                    @endphp--}}
-
                 <!-- /.card-body -->
-                <div class="card-footer">
-                    Footer
-                </div>
-                <!-- /.card-footer-->
             </div>
             <!-- /.card -->
 
