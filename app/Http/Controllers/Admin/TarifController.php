@@ -2177,9 +2177,9 @@ public function siyahi(Request $request)
             $data = $data->where('abonent2', $abonent2);
         }
 
-        if ($abonent2 === '0') {
+/*        if ($abonent2 === '0') {
             $data = $data->where('abonent2', $abonent2);
-        }
+        }*/
         if ($internet) {
             $data = $data->whereIn('tarifs', $internet);
         }

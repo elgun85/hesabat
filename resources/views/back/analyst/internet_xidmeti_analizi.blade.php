@@ -92,13 +92,13 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="esas" class="">Tarif kodu</label>
-                            <input id="esas" type="text" name="esas" class="form-control" placeholder="Tarifin axtarışı üçün kodunu yazin">
+                            <label for="esas" class="">Əsas xidmət</label>
+                            <input id="esas" type="text" name="esas" class="form-control" placeholder="Əsas xidmət axtarışı üçün tarif kodu yazin">
                         </div>
-{{--                        <div class="form-group">
+                        <div class="form-group">
                             <label for="elave" class="">Əlavə xidmət</label>
-                            <input id="elave" type="text" name="elave" class="form-control" placeholder="Əlavə xidmət axtarışı üçün tarif kodu yazin">
-                        </div>--}}
+                            <input id="elave" type="text" name="elave" class="form-control" placeholder="Tarifin axtarışı üçün kodunu yazin...">
+                        </div>
 
                         <div class="form-group">
                             <label for="abon1">Abonent {{old('abonent')}} </label>
@@ -120,7 +120,6 @@
                             </select>
                             @error('abonent2') <p class="text-danger">{{$message}}</p> @enderror
                         </div>
-                       {{-- @dd(request()->get('abonent2'))--}}
 
                         @if(request()->get('category')||request()->get('novu'))
 
@@ -180,10 +179,9 @@
                             <tr >
                                 <td class="text-left" >#</td>
                                 <td class="text-left" >Telefon</td>
-                                <td>Hesab</td>
                                 <td>Əsas Xid</td>
                                 <td>Abon</td>
-                                <td>Abon2</td>
+
                                 <td>Əlavə xid</td>
                             </tr>
                             </thead>
@@ -197,14 +195,25 @@
                                 <tr class="text-center">
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$item->notel}}</td>
-                                    <td>{{$item->KODQURUM}}</td>
-                                    <td>{{$item->esas}}
-                                        {{substr(str_replace( $bul,$dey,$item->tarifim),0,40)}}
+                                    <td>{{$item->esastar}}
+
+                                      {{--  {{substr(str_replace( $bul,$dey,$item->adtarif),0,40)}}--}}
                                     </td>
-                                    <td>{{$item->ABONENT}}</td>
-                                    <td>{{$item->ABONENT2}}</td>
-                                    <td>{{$item->elave}}
-                                         {{$item->tar}}
+                                    <td>
+                                        @if($item->ABONENT == 1 and $item->ABONENT2 == 0)
+                                            Mənzil
+                                        @endif
+                                        @if($item->ABONENT==1 and $item->ABONENT2 == 2)
+                                            Mənzidə qurum
+
+                                        @endif
+                                        @if($item->ABONENT == 2 and $item->ABONENT2 == 0)
+                                            Qurum
+
+                                        @endif
+                                    </td>
+                                    <td>{{$item->KODTARIF}}
+                                        {{substr(str_replace( $bul,$dey,$item->adtarif),0,40)}}
                                     </td>
                                 </tr>
                             @endforeach

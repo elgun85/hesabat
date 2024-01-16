@@ -91,6 +91,7 @@ Route::group(['middleware'=>['auth','authadmin'],'prefix'=>'admin'],function ()
                                               /*Mus*/
         Route::get('data_montly_analiz',[OurservController::class,'data_montly_analiz'])->name('data_montly_analiz');
         Route::get('data_montly_ourserv',[OurservController::class,'data_montly_ourserv'])->name('data_montly_ourserv');
+        Route::get('data_cat_ourserv',[OurservController::class,'data_cat_ourserv'])->name('data_cat_ourserv');
         Route::get('data_naz_ourserv',[OurservController::class,'data_naz_ourserv'])->name('data_naz_ourserv');
         Route::get('edv_sened_ourserv',[OurservController::class,'edv_sened_ourserv'])->name('edv_sened_ourserv');
         Route::get('edv_sened_ourserv',[OurservController::class,'edv_sened_ourserv'])->name('edv_sened_ourserv');
@@ -100,6 +101,9 @@ Route::group(['middleware'=>['auth','authadmin'],'prefix'=>'admin'],function ()
 
                                         /*Analyst*/
     Route::get('internet_xidmeti_analizi',[AnalystController::class,'internet_xidmeti_analizi'])->name('internet_xidmeti_analizi');
+    Route::get('diger_prov',[AnalystController::class,'diger_prov'])->name('diger_prov');
+    Route::get('hesablanmis_mebleg',[AnalystController::class,'hesablanmis_mebleg'])->name('hesablanmis_mebleg');
+    Route::get('mhm_lks',[AnalystController::class,'mhm_lks'])->name('mhm_lks');
 
 
     Route::get('hes_yoxla5',[TarifController::class,'hes_yoxla5'])->name('hes_yoxla5');

@@ -1,5 +1,5 @@
 @extends('back.layouts.master')
-@section('title','Analyst')
+@section('title','Digər provayder')
 
 @section('content')
     <div class="content-wrapper">
@@ -42,29 +42,30 @@
                 </div>
 
                 <div class="card-body">
-
-<div class="row">
-    <div class="mr-5">
-        <a href="{{route('internet_xidmeti_analizi')}}" target="_blank" type="button" class="btn btn-outline-primary">İnternet xidməti analizi</a>
-    </div>
-    <div class="mr-5">
-        <a href="{{route('diger_prov')}}" target="_blank" type="button" class="btn btn-outline-primary">Digər provayder</a>
-    </div>
-
-    <div class="mr-5">
-        <a href="{{route('hesablanmis_mebleg')}}" target="_blank" type="button" class="btn btn-outline-primary">Hesablanmış məbləğ</a>
-    </div>
-    <div class="mr-5">
-        <a href="{{route('mhm_lks')}}" target="_blank" type="button" class="btn btn-outline-primary">MHM ilə LKŞ fərqlər</a>
-    </div>
-
-
-
-</div>
-
-
-
-
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Provayder adı</th>
+                            <th scope="col">İstafəçi sayı</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($data as $ItemDP)
+                        <tr>
+                            <th scope="row">{{$loop->iteration}} </th>
+                            <td>
+                              @if($ItemDP->cem == 'cemi')
+                                    Cəmi
+                                @else
+                                    {{$ItemDP->ADQURUM}}
+                                @endif
+                            </td>
+                            <td>{{$ItemDP->say}}</td>
+                        </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">

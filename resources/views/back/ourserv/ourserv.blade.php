@@ -51,6 +51,9 @@
         <a href="{{route('data_montly_ourserv')}}" target="_blank"  type="button" class="btn btn-outline-primary">Data montly</a>
     </div>
     <div class="mr-5">
+        <a href="{{route('data_cat_ourserv')}}" target="_blank"  type="button" class="btn btn-outline-primary">Data montly (fiziki+ huquqi )</a>
+    </div>
+    <div class="mr-5">
         <a href="{{route('data_naz_ourserv')}}"  target="_blank" type="button" class="btn btn-outline-primary">Data nazirlik</a>
     </div>
     <div class="mr-5">
