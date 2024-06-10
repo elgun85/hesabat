@@ -191,11 +191,11 @@
                                 $dey=  ['Ə','Ə','ə','Ö','ö','I','ı','Ü','ü', 'Ş','ş', 'Ğ','ğ','Ç','ç'];
                            {{-- {{str_replace( $bul,$dey,$item->ADQURUM)}}--}}
                                 ?>
-                            @foreach($axtar as $item)
+                            @foreach($search as $item)
                                 <tr class="text-center">
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$item->notel}}</td>
-                                    <td>{{$item->esastar}}
+                                    <td>{{$item->main_tarif}}
 
                                       {{--  {{substr(str_replace( $bul,$dey,$item->adtarif),0,40)}}--}}
                                     </td>

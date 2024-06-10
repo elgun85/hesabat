@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="card-body">
-                    <table class="table table-hover">
+                    <table class="table table-hover col-md-4">
                         <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -58,8 +58,8 @@
                               @if($ItemDP->cem == 'cemi')
                                     Cəmi
                                 @else
-                                    {{$ItemDP->ADQURUM}}
-                                @endif
+									{{substr($ItemDP->ADQURUM,0,15)}}
+                                   @endif
                             </td>
                             <td>{{$ItemDP->say}}</td>
                         </tr>

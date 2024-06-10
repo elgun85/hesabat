@@ -109,7 +109,7 @@
                                         text-danger text-bold
                                     @endif
                                         " >
-                                    <tr class="text-left">
+                                   {{-- <tr class="text-left">--}}
 
                                        <td>{{$gelir->xidmetin_novu}}
 

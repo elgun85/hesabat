@@ -104,6 +104,7 @@ Route::group(['middleware'=>['auth','authadmin'],'prefix'=>'admin'],function ()
     Route::get('diger_prov',[AnalystController::class,'diger_prov'])->name('diger_prov');
     Route::get('hesablanmis_mebleg',[AnalystController::class,'hesablanmis_mebleg'])->name('hesablanmis_mebleg');
     Route::get('mhm_lks',[AnalystController::class,'mhm_lks'])->name('mhm_lks');
+    Route::get('mhm_lks_dov',[AnalystController::class,'mhm_lks_dov'])->name('mhm_lks_dov');
 
 
     Route::get('hes_yoxla5',[TarifController::class,'hes_yoxla5'])->name('hes_yoxla5');

@@ -10,7 +10,7 @@
                     <div class="col-sm-6">
                         <h1>
                             @if((request()->get('il')) and (request()->get('ay')) )
-                                {{request()->get('ay')}}-{{ request()->get('il')}} Aylıq Ədv-siz sənədləşmələr üzrə siyahı
+                                {{request()->get('ay')}}-{{ request()->get('il')}} Ədv-dən azad  abunəçilər üzrə siyahı
                             @endif
                         </h1>
                     </div>

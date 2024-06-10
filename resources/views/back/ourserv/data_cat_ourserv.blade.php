@@ -199,8 +199,8 @@
 
 
                                         <td>{{$sened->cemi_say}}</td>
-                                        <td>{{number_format($cemi_edv=round(($sened->cemi_hesab-round((($sened->cemi_hesab-$sened->idere_edv)/1.18+$sened->idere_edv),2)),2), 2, ',', ' ')}}</td>
                                         <td>{{number_format($cemi_esas=( round((($sened->cemi_hesab-$sened->idere_edv)/1.18+$sened->idere_edv),2)), 2, ',', ' ') }}</td>
+                                        <td>{{number_format($cemi_edv=round(($sened->cemi_hesab-round((($sened->cemi_hesab-$sened->idere_edv)/1.18+$sened->idere_edv),2)),2), 2, ',', ' ')}}</td>
                                         <td>{{number_format($cemi_mebleg=round(($sened->cemi_hesab),2), 2, ',', ' ')}}</td>
                                     </tr>
                                 @endforeach

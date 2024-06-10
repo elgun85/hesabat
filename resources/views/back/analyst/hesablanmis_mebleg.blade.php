@@ -93,6 +93,9 @@
                             <tr >
                                 <td class="text-left" >#</td>
                                 <td>Telefon</td>
+                                <td>KODQURUM</td>
+                                <td>KODMHM</td>
+                                <td>ABONENT</td>
                                 <td>hesablama</td>
                             </tr>
                             </thead>
@@ -108,6 +111,9 @@
                                     </td>
 
                                     <td>{{$item->notel}}</td>
+                                    <td>{{$item->KODQURUM}}</td>
+                                    <td>{{$item->KODMHM}}</td>
+                                    <td>{{$item->ABONENT}}</td>
                                     <td>{{$item->cemi_hesablama}}</td>
                                 </tr>
                             @endforeach

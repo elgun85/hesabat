@@ -57,6 +57,9 @@
     <div class="mr-5">
         <a href="{{route('mhm_lks')}}" target="_blank" type="button" class="btn btn-outline-primary">MHM ilə LKŞ fərqlər</a>
     </div>
+    <div class="mr-5">
+        <a href="{{route('mhm_lks_dov')}}" target="_blank" type="button" class="btn btn-outline-primary">MHM ilə LKŞ Dovruyye cedveli</a>
+    </div>
 
 
 
