@@ -195,7 +195,7 @@
                                 <tr class="text-center">
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$item->notel}}</td>
-                                    <td>{{$item->main_tarif}}
+                                    <td>{{$item->main_tariff}} ( {{$item->main_adtarif}})
 
                                       {{--  {{substr(str_replace( $bul,$dey,$item->adtarif),0,40)}}--}}
                                     </td>
@@ -212,8 +212,8 @@
 
                                         @endif
                                     </td>
-                                    <td>{{$item->KODTARIF}}
-                                        {{substr(str_replace( $bul,$dey,$item->adtarif),0,40)}}
+                                    <td>{{$item->extra_tariff}}
+                                        {{substr(str_replace( $bul,$dey,$item->extra_adtarif),0,40)}}
                                     </td>
                                 </tr>
                             @endforeach
